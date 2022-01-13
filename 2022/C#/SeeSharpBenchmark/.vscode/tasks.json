@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "bench",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "${workspaceFolder}/SeeSharpBenchmark.csproj",
+                "-c",
+                "Release"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
