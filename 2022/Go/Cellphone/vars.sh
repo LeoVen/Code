@@ -1,0 +1,6 @@
+export CELL_DBHOST="127.0.0.1"
+export CELL_DBNAME="CELLDB"
+export CELL_DBPASS="cellpass123"
+export CELL_DBPORT="3306"
+export CELL_DBPROT="tcp"
+export CELL_DBUSER="celluser"
