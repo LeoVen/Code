@@ -1,0 +1,12 @@
+{
+    "CELL_DBHOST": "127.0.0.1",
+    "CELL_DBNAME": "CELLDB",
+    "CELL_DBPASS": "cellpass123",
+    "CELL_DBPORT": "3306",
+    "CELL_DBPROT": "tcp",
+    "CELL_DBUSER": "celluser",
+    "CELL_APIPORT": "8080",
+    "CELL_APITYPE":"1",
+    "CELL_DBTYPE":"1",
+    "CELL_REPOTYPE":"1"
+}

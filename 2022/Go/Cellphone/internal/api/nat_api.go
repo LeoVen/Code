@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -168,8 +167,6 @@ func (self *NativeApiService) insertSingle(w http.ResponseWriter, r *http.Reques
 
 func MakeNatRoutes(repo *repository.RepositoryService) interface{} {
 	nativeService := NativeApiService{repo}
-
-	log.Println("Running net/http api")
 
 	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
 	http.HandleFunc("/Cellphone/", nativeService.serveSingleFromProvider)

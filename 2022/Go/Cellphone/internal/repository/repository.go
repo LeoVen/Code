@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"cellphone/internal/app_config"
 	"cellphone/internal/entity"
 	"database/sql"
 	"log"
@@ -33,28 +34,30 @@ type RepositoryService struct {
 	Provider  ProviderRepository
 }
 
-func Initialize(repoType int, db *sql.DB) (*RepositoryService, error) {
-	if repoType == REPO_SQL {
+func Initialize(conf app_config.Main, db *sql.DB) (*RepositoryService, error) {
+	if conf.RepoType == REPO_SQL {
 		log.Println("Starting SQL Repository")
-	} else if repoType == REPO_GORM {
+	} else if conf.RepoType == REPO_GORM {
 		log.Println("Starting GORM Repository")
-	} else if repoType == REPO_MOCK {
+	} else if conf.RepoType == REPO_MOCK {
 		log.Println("Starting MOCK Repository")
 	}
 
 	repo := &RepositoryService{}
 
-	cellphone, err := NewCellphoneRepository(repoType, db)
+	cellphone, err := NewCellphoneRepository(conf.RepoType, db)
 	if err != nil {
 		return nil, err
 	}
-	provider, err := NewProviderRepository(repoType, db)
+	provider, err := NewProviderRepository(conf.RepoType, db)
 	if err != nil {
 		return nil, err
 	}
 
 	repo.Cellphone = cellphone
 	repo.Provider = provider
+
+	log.Println("Repository Initialized")
 
 	return repo, nil
 }

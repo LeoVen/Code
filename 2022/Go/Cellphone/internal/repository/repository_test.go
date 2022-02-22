@@ -3,6 +3,7 @@ package repository_test
 import (
 	"bytes"
 	"cellphone/internal/api"
+	"cellphone/internal/app_config"
 	"cellphone/internal/dbconn"
 	"cellphone/internal/entity"
 	"cellphone/internal/entry"
@@ -33,7 +34,12 @@ func serveSingleCellphone(port int, providerId int) (*http.Response, error) {
 }
 
 func TestCellphoneSingle(t *testing.T) {
-	_, _, apiEngine, err := entry.InitializeBackend(dbconn.DB_MOCK, repository.REPO_MOCK, api.API_NAT)
+	config := app_config.Main{
+		DbType:   dbconn.DB_MOCK,
+		RepoType: repository.REPO_MOCK,
+		ApiType:  api.API_NAT,
+	}
+	_, _, apiEngine, err := entry.InitializeBackend(config)
 
 	go func() {
 		switch engine := apiEngine.(type) {

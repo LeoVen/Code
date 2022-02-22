@@ -191,11 +191,64 @@ func (self *CellphoneRepositoryMock) InsertSingle(cellphone *entity.Cellphone) e
 }
 
 func (self *CellphoneRepositoryGorm) GetById(id int) (interface{}, error) {
-	return nil, nil
+	var result entity.Cellphone
+	tx := self.db.Model(&entity.Cellphone{}).First(&result, id)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return result, nil
 }
+
 func (self *CellphoneRepositoryGorm) ServeSingleFromProvider(providerId int) (*entity.Cellphone, error) {
-	return nil, nil
+	var result entity.Cellphone
+
+	self.db.Model(&entity.Cellphone{}).Where(&entity.Cellphone{
+		ProviderId: providerId,
+	}).First(&result)
+
+	if self.db.Error != nil {
+		return nil, self.db.Error
+	}
+
+	tx := self.db.Begin()
+	defer func() {
+		if tx.Error == nil {
+			tx.Commit()
+		}
+	}()
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	self.db.Model(&entity.Cellphone{}).Delete(&entity.Cellphone{}, 0)
+
+	if self.db.Error != nil {
+		return nil, self.db.Error
+	}
+
+	return &result, nil
 }
+
 func (self *CellphoneRepositoryGorm) InsertSingle(cellphone *entity.Cellphone) error {
+	tx := self.db.Model(&entity.Cellphone{}).Begin()
+	defer func() {
+		if tx.Error == nil {
+			tx.Commit()
+		}
+	}()
+
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	tx.Create(cellphone)
+
+	if tx.Error != nil {
+		return tx.Error
+	}
+
 	return nil
 }

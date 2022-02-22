@@ -1,9 +1,8 @@
 package dbconn
 
 import (
-	"bytes"
+	"cellphone/internal/app_config"
 	"database/sql"
-	"errors"
 	"fmt"
 	"log"
 
@@ -17,20 +16,17 @@ const (
 	DB_MYSQL
 )
 
-var (
-	EnvMissing = errors.New("Missing environment variables:")
-)
-
-type MongoDBConfig struct{}
-
-func NewDbConnection(dbType int) (*sql.DB, error) {
-	switch dbType {
+func NewDbConnection(config app_config.Main) (*sql.DB, error) {
+	switch config.DbType {
 	case DB_MOCK:
+		log.Println("Initializing Mock Database Client")
 		return newMockConnection()
 	case DB_MYSQL:
-		return newMySQLDBConnection()
+		log.Println("Initializing MySQL Database Client")
+		return newMySQLDBConnection(config)
 	}
-	return newMySQLDBConnection()
+	log.Println("Initializing MySQL Database Client")
+	return newMySQLDBConnection(config)
 }
 
 func newMockConnection() (*sql.DB, error) {
@@ -43,20 +39,8 @@ func newMockConnection() (*sql.DB, error) {
 	return db, nil
 }
 
-func newMySQLDBConnection() (*sql.DB, error) {
-	config := MySQLConfig{}
-
-	config.LoadEnvs()
-
-	if missing := config.CheckMissingVars(); len(missing) > 0 {
-		var buff bytes.Buffer
-		buff.WriteString(EnvMissing.Error())
-		for _, miss := range missing {
-			buff.WriteString(" ")
-			buff.WriteString(miss)
-		}
-		return nil, errors.New(buff.String())
-	}
+func newMySQLDBConnection(mainConf app_config.Main) (*sql.DB, error) {
+	config := MySQLFromConfig(mainConf)
 
 	mysqlCfg := mysql.Config{
 		User:   config.DbUser,

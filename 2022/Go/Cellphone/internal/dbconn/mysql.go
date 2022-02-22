@@ -1,6 +1,8 @@
 package dbconn
 
-import "os"
+import (
+	"cellphone/internal/app_config"
+)
 
 type MySQLConfig struct {
 	DbHost string
@@ -11,13 +13,15 @@ type MySQLConfig struct {
 	DbUser string
 }
 
-func (c *MySQLConfig) LoadEnvs() {
-	c.DbHost = os.Getenv("CELL_DBHOST")
-	c.DbName = os.Getenv("CELL_DBNAME")
-	c.DbPass = os.Getenv("CELL_DBPASS")
-	c.DbPort = os.Getenv("CELL_DBPORT")
-	c.DbProt = os.Getenv("CELL_DBPROT")
-	c.DbUser = os.Getenv("CELL_DBUSER")
+func MySQLFromConfig(conf app_config.Main) MySQLConfig {
+	return MySQLConfig{
+		DbHost: conf.Flags["CELL_DBHOST"],
+		DbName: conf.Flags["CELL_DBNAME"],
+		DbPass: conf.Flags["CELL_DBPASS"],
+		DbPort: conf.Flags["CELL_DBPORT"],
+		DbProt: conf.Flags["CELL_DBPROT"],
+		DbUser: conf.Flags["CELL_DBUSER"],
+	}
 }
 
 func (c *MySQLConfig) CheckMissingVars() []string {
