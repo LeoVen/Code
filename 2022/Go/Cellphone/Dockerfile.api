@@ -1,0 +1,28 @@
+FROM golang:1.17
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+
+RUN go mod download
+RUN go mod verify
+
+ENV CELL_DBHOST="celldb"
+ENV CELL_DBNAME="CELLDB"
+ENV CELL_DBPASS="cellpass123"
+ENV CELL_DBPORT="3306"
+ENV CELL_DBPROT="tcp"
+ENV CELL_DBUSER="celluser"
+ENV CELL_APIPORT="8080"
+ENV CELL_APITYPE="1"
+ENV CELL_DBTYPE="1"
+ENV CELL_REPOTYPE="1"
+
+COPY . .
+
+RUN go build ./cmd/api/main.go
+
+EXPOSE 8080
+
+ENTRYPOINT "/app/main"

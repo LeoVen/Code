@@ -1,0 +1,12 @@
+FROM mysql:8.0
+
+ENV MYSQL_DATABASE="CELLDB"
+ENV MYSQL_USER="celluser"
+ENV MYSQL_PASSWOR="cellpass123"
+ENV MYSQL_RANDOM_ROOT_PASSWORD="yes"
+
+ADD ./migration/up.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306
+
+CMD ["mysqld"]

@@ -39,15 +39,15 @@ func NewCellphoneRepository(repoType int, conn *sql.DB) (CellphoneRepository, er
 	return newCellphoneRepositorySql(conn)
 }
 
-func newCellphoneRepositorySql(conn *sql.DB) (CellphoneRepository, error) {
+func newCellphoneRepositorySql(conn *sql.DB) (*CellphoneRepositorySql, error) {
 	return &CellphoneRepositorySql{conn}, nil
 }
 
-func newCellphoneRepositoryMock(conn *sql.DB) (CellphoneRepository, error) {
+func newCellphoneRepositoryMock(conn *sql.DB) (*CellphoneRepositoryMock, error) {
 	return &CellphoneRepositoryMock{conn}, nil
 }
 
-func newCellphoneRepositoryGorm(conn *sql.DB) (CellphoneRepository, error) {
+func newCellphoneRepositoryGorm(conn *sql.DB) (*CellphoneRepositoryGorm, error) {
 	gormDB, err := gorm.Open(mysqlGorm.New(mysqlGorm.Config{
 		Conn: conn,
 	}))

@@ -16,6 +16,16 @@ type NativeApiService struct {
 	repo *repository.RepositoryService
 }
 
+func MakeNatRoutes(repo *repository.RepositoryService) interface{} {
+	nativeService := NativeApiService{repo}
+
+	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
+	http.HandleFunc("/Cellphone/", nativeService.serveSingleFromProvider)
+	http.HandleFunc("/Cellphone", nativeService.insertSingle)
+
+	return &nativeService
+}
+
 // /Provider/ByName/:name
 func (self *NativeApiService) getProviderByName(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
@@ -163,14 +173,4 @@ func (self *NativeApiService) insertSingle(w http.ResponseWriter, r *http.Reques
 	}
 
 	w.WriteHeader(http.StatusOK)
-}
-
-func MakeNatRoutes(repo *repository.RepositoryService) interface{} {
-	nativeService := NativeApiService{repo}
-
-	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
-	http.HandleFunc("/Cellphone/", nativeService.serveSingleFromProvider)
-	http.HandleFunc("/Cellphone", nativeService.insertSingle)
-
-	return &nativeService
 }

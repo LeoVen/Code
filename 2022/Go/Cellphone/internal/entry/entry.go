@@ -8,7 +8,8 @@ import (
 	"database/sql"
 )
 
-// Returns the db connection, repository, apiEngine and error
+// InitializeBackend returns the db connection, repository, apiEngine and error
+// The apiEngine is not initialized
 func InitializeBackend(conf config.Main) (*sql.DB, *repository.RepositoryService, interface{}, error) {
 	db, err := dbconn.NewDbConnection(conf)
 	if err != nil {
