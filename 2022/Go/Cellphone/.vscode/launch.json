@@ -5,10 +5,9 @@
     "version": "0.2.0",
     "options": {
         "env": {
-            "CELL_DBHOST": "127.0.0.1",
+            "CELL_DBADDR": "127.0.0.1:3306",
             "CELL_DBNAME": "CELLDB",
             "CELL_DBPASS": "cellpass123",
-            "CELL_DBPORT": "3306",
             "CELL_DBPROT": "tcp",
             "CELL_DBUSER": "celluser",
             "CELL_APITYPE":"1",
@@ -24,10 +23,9 @@
             "mode": "auto",
             "program": "${file}",
             "args": [
-                "CELL_DBHOST=${config:CELL_DBHOST}",
+                "CELL_DBADDR=${config:CELL_DBADDR}",
                 "CELL_DBNAME=${config:CELL_DBNAME}",
                 "CELL_DBPASS=${config:CELL_DBPASS}",
-                "CELL_DBPORT=${config:CELL_DBPORT}",
                 "CELL_DBPROT=${config:CELL_DBPROT}",
                 "CELL_DBUSER=${config:CELL_DBUSER}",
                 "CELL_APIPORT=${config:CELL_APIPORT}",

@@ -5,44 +5,40 @@ import (
 )
 
 type MySQLConfig struct {
-	DbHost string
-	DbName string
-	DbPass string
-	DbPort string
-	DbProt string
-	DbUser string
+	DBAddr string
+	DBName string
+	DBPass string
+	DBPort string
+	DBProt string
+	DBUser string
 }
 
 func MySQLFromConfig(conf app_config.Main) MySQLConfig {
 	return MySQLConfig{
-		DbHost: conf.Flags["CELL_DBHOST"],
-		DbName: conf.Flags["CELL_DBNAME"],
-		DbPass: conf.Flags["CELL_DBPASS"],
-		DbPort: conf.Flags["CELL_DBPORT"],
-		DbProt: conf.Flags["CELL_DBPROT"],
-		DbUser: conf.Flags["CELL_DBUSER"],
+		DBAddr: conf.Flags["CELL_DBADDR"],
+		DBName: conf.Flags["CELL_DBNAME"],
+		DBPass: conf.Flags["CELL_DBPASS"],
+		DBProt: conf.Flags["CELL_DBPROT"],
+		DBUser: conf.Flags["CELL_DBUSER"],
 	}
 }
 
 func (c *MySQLConfig) CheckMissingVars() []string {
 	result := make([]string, 0)
 
-	if c.DbHost == "" {
-		result = append(result, "CELL_DBHOST")
+	if c.DBAddr == "" {
+		result = append(result, "CELL_DBADDR")
 	}
-	if c.DbName == "" {
+	if c.DBName == "" {
 		result = append(result, "CELL_DBNAME")
 	}
-	if c.DbPass == "" {
+	if c.DBPass == "" {
 		result = append(result, "CELL_DBPASS")
 	}
-	if c.DbPort == "" {
-		result = append(result, "CELL_DBPORT")
-	}
-	if c.DbProt == "" {
+	if c.DBProt == "" {
 		result = append(result, "CELL_DBPROT")
 	}
-	if c.DbUser == "" {
+	if c.DBUser == "" {
 		result = append(result, "CELL_DBUSER")
 	}
 

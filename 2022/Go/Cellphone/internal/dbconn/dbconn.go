@@ -3,7 +3,6 @@ package dbconn
 import (
 	"cellphone/internal/app_config"
 	"database/sql"
-	"fmt"
 	"log"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -43,11 +42,11 @@ func newMySQLDBConnection(mainConf app_config.Main) (*sql.DB, error) {
 	config := MySQLFromConfig(mainConf)
 
 	mysqlCfg := mysql.Config{
-		User:   config.DbUser,
-		Passwd: config.DbPass,
-		Net:    config.DbProt,
-		Addr:   fmt.Sprintf("%s:%s", config.DbHost, config.DbPort),
-		DBName: config.DbName,
+		User:   config.DBUser,
+		Passwd: config.DBPass,
+		Net:    config.DBProt,
+		Addr:   config.DBAddr,
+		DBName: config.DBName,
 	}
 
 	dsn := mysqlCfg.FormatDSN()

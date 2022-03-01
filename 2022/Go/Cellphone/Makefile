@@ -1,5 +1,6 @@
+restart: down up
 
-up: down
+up:
 	docker build -t cellapi:1.0 -f ./Dockerfile.api .
 	docker build -t celldb:1.0 -f ./Dockerfile.mysql .
 
@@ -9,8 +10,6 @@ up: down
 	docker network create cell_net
 	docker network connect --alias cellapi cell_net cellapi_instance
 	docker network connect --alias celldb cell_net celldb_instance
-
-	echo Success
 
 down:
 	docker stop cellapi_instance
@@ -23,5 +22,3 @@ down:
 	docker image rm celldb:1.0
 
 	docker network rm cell_net
-
-	echo Success

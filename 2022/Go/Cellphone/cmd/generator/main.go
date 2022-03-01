@@ -10,7 +10,7 @@ import (
 
 const URL_ROOT = "http://localhost:8080/"
 const FROM = 1_000_000_000
-const TO = 1_500_000_000
+const TO = 1_001_000_000
 const STEP = 100_000
 
 const PROVIDER_QUERY = "INSERT INTO PROVIDER (NAME, TOTAL) VALUES (?, ?);"

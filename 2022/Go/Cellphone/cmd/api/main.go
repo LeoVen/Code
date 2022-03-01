@@ -11,10 +11,9 @@ import (
 )
 
 var REQ_ARGS = []string{
-	"CELL_DBHOST",
+	"CELL_DBADDR",
 	"CELL_DBNAME",
 	"CELL_DBPASS",
-	"CELL_DBPORT",
 	"CELL_DBPROT",
 	"CELL_DBUSER",
 	"CELL_APIPORT",
