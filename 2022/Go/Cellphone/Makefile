@@ -1,3 +1,5 @@
+# Commands for running the API and MySQL database by using docker directly
+
 restart: down up
 
 up:
@@ -22,3 +24,6 @@ down:
 	docker image rm celldb:1.0
 
 	docker network rm cell_net
+
+mysql:
+	mysql -h 127.0.0.1 -P 3310 -u celluser -p CELLDB

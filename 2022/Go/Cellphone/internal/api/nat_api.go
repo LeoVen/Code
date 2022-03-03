@@ -20,13 +20,55 @@ func MakeNatRoutes(repo *repository.RepositoryService) interface{} {
 	nativeService := NativeApiService{repo}
 
 	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
+	http.HandleFunc("/Provider", nativeService.createProvider)
 	http.HandleFunc("/Cellphone/", nativeService.serveSingleFromProvider)
 	http.HandleFunc("/Cellphone", nativeService.insertSingle)
 
 	return &nativeService
 }
 
-// /Provider/ByName/:name
+// [POST] /Provider
+func (self *NativeApiService) createProvider(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	bytes, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	ct := r.Header.Get("content-type")
+
+	if ct != "application/json" {
+		w.WriteHeader(http.StatusUnsupportedMediaType)
+		w.Write([]byte(fmt.Sprintf("Need content-type 'application/json' but got %s", ct)))
+		return
+	}
+
+	var provider entity.Provider
+
+	err = json.Unmarshal(bytes, &provider)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	err = self.repo.Provider.InsertSingle(&provider)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+// [GET] /Provider/ByName/:name
 func (self *NativeApiService) getProviderByName(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	fullPath := r.URL.Path[:]

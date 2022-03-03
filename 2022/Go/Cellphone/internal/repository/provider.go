@@ -82,7 +82,7 @@ func (self *ProviderRepositorySql) GetByName(name string) (*entity.Provider, err
 	}
 
 	var entity entity.Provider
-	err := row.Scan(&entity.Id, &entity.Name)
+	err := row.Scan(&entity.Id, &entity.Name, &entity.Total)
 
 	return &entity, err
 }
