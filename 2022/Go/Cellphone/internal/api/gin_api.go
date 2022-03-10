@@ -1,6 +1,7 @@
 package api
 
 import (
+	"cellphone/internal/app_config"
 	"cellphone/internal/entity"
 	"cellphone/internal/repository"
 	"net/http"
@@ -9,7 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func MakeGinRoutes(repo *repository.RepositoryService) interface{} {
+type GinApi struct {
+	engine *gin.Engine
+}
+
+func (self *GinApi) Start(config app_config.Main) error {
+	return self.engine.Run()
+}
+
+func MakeGinRoutes(repo *repository.RepositoryService) *GinApi {
 
 	r := gin.Default()
 
@@ -17,7 +26,7 @@ func MakeGinRoutes(repo *repository.RepositoryService) interface{} {
 		name := ctx.Param("name")
 
 		if name == "" {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": "URL Parameter name is missing"})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Query name is missing"})
 			return
 		}
 
@@ -71,7 +80,7 @@ func MakeGinRoutes(repo *repository.RepositoryService) interface{} {
 		ctx.Status(http.StatusCreated)
 	})
 
-	r.GET("/Cellphone/:providerId", func(ctx *gin.Context) {
+	r.GET("/Cellphone/ById/:providerId", func(ctx *gin.Context) {
 		providerParam := ctx.Param("providerId")
 
 		if providerParam == "" {
@@ -96,6 +105,25 @@ func MakeGinRoutes(repo *repository.RepositoryService) interface{} {
 		ctx.JSON(http.StatusOK, phone)
 	})
 
+	r.GET("/Cellphone/ByName/:providerName", func(ctx *gin.Context) {
+		providerParam := ctx.Param("providerName")
+
+		if providerParam == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "URL Parameter providerName is missing"})
+		}
+
+		providerName := providerParam
+		phones, err := repo.Cellphone.GetAllByProviderName(providerName)
+
+		if err != nil {
+			ctx.Error(err)
+			return
+		}
+
+		ctx.JSON(http.StatusOK, phones)
+	})
+
+	// Create a new phone
 	r.POST("/Cellphone", func(ctx *gin.Context) {
 		var cellphone entity.Cellphone
 		if err := ctx.ShouldBindJSON(&cellphone); err != nil {
@@ -111,5 +139,5 @@ func MakeGinRoutes(repo *repository.RepositoryService) interface{} {
 		ctx.Status(http.StatusCreated)
 	})
 
-	return r
+	return &GinApi{r}
 }

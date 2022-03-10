@@ -10,7 +10,7 @@ import (
 
 // InitializeBackend returns the db connection, repository, apiEngine and error
 // The apiEngine is not initialized
-func InitializeBackend(conf config.Main) (*sql.DB, *repository.RepositoryService, interface{}, error) {
+func InitializeBackend(conf config.Main) (*sql.DB, *repository.RepositoryService, api.ApiHandler, error) {
 	db, err := dbconn.NewDbConnection(conf)
 	if err != nil {
 		return nil, nil, nil, err

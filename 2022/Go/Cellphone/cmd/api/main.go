@@ -1,13 +1,9 @@
 package main
 
 import (
-	"cellphone/internal/api"
 	"cellphone/internal/app_config"
 	"cellphone/internal/entry"
 	"fmt"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 var REQ_ARGS = []string{
@@ -43,16 +39,7 @@ func main() {
 
 	defer db.Close()
 
-	if apiEngine == nil {
-		panic("Error: API Engine is nil")
-	}
-
-	switch engine := apiEngine.(type) {
-	case *gin.Engine:
-		err = engine.Run()
-	case *api.NativeApiService:
-		err = http.ListenAndServe(":"+config.Flags["CELL_APIPORT"], nil)
-	}
+	err = apiEngine.Start(config)
 
 	if err != nil {
 		panic(fmt.Sprintf("Error initializing API: %s", err.Error()))

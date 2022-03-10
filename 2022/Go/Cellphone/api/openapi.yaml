@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Cellphone API
+  description: An API that allows consumers to get new and unused cellphones from different providers
+  version: 2.0.0
+servers:
+  - url: http://localhost:8080/
+    description: Local development server
+tags:
+  - name: cellphone
+  - name: provider
+paths:
+  /Provider/ById/{id}:
+    get:
+      summary: Lookup provider by id
+      description: Lookup provider by id, which is the primary key.
+      tags:
+        - provider
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Provider ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Provider was found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetProviderByIdResponse"
+        404:
+          description: Provider was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        500:
+          description: An unexpected error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    ApiError:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+    GetProviderByNameResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 88909
+      required:
+        - id
+        - name
+        - total
+    GetProviderByIdResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 88909
+      required:
+        - id
+        - name
+        - total
+

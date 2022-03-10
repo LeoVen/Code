@@ -21,6 +21,8 @@ type CellphoneRepository interface {
 	Repository
 	ServeSingleFromProvider(providerId int) (*entity.Cellphone, error)
 	InsertSingle(cellphone *entity.Cellphone) error
+	GetAllByProviderName(name string) ([]*entity.Cellphone, error)
+	DeleteAllFromProvider(providerId int) (int, error)
 }
 
 type ProviderRepository interface {

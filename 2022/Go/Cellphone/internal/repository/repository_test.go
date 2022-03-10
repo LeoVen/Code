@@ -15,8 +15,6 @@ import (
 	"strconv"
 	"testing"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func insertCellphone(port int, cellphone *entity.Cellphone) (*http.Response, error) {
@@ -42,12 +40,7 @@ func TestCellphoneSingle(t *testing.T) {
 	_, _, apiEngine, err := entry.InitializeBackend(config)
 
 	go func() {
-		switch engine := apiEngine.(type) {
-		case *gin.Engine:
-			err = engine.Run()
-		case *api.NativeApiService:
-			err = http.ListenAndServe(":8080", nil)
-		}
+		apiEngine.Start(config)
 	}()
 
 	time.Sleep(2_000_000_000)

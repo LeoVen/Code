@@ -7,18 +7,17 @@ import (
 )
 
 const (
-	API_MOCK = iota
-	API_NAT
+	API_NAT = iota
 	API_GIN
 )
 
-type MockApi struct{}
+type ApiHandler interface {
+	// A function that blocks and starts the API
+	Start(config app_config.Main) error
+}
 
-func MakeRoutes(conf app_config.Main, repo *repository.RepositoryService) interface{} {
+func MakeRoutes(conf app_config.Main, repo *repository.RepositoryService) ApiHandler {
 	switch conf.ApiType {
-	case API_MOCK:
-		log.Println("Starting Mock API")
-		return &MockApi{}
 	case API_NAT:
 		log.Println("Starting net/http API")
 		return MakeNatRoutes(repo)

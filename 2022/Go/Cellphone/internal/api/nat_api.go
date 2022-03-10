@@ -1,6 +1,7 @@
 package api
 
 import (
+	"cellphone/internal/app_config"
 	"cellphone/internal/entity"
 	"cellphone/internal/repository"
 	"database/sql"
@@ -16,7 +17,11 @@ type NativeApiService struct {
 	repo *repository.RepositoryService
 }
 
-func MakeNatRoutes(repo *repository.RepositoryService) interface{} {
+func (self *NativeApiService) Start(config app_config.Main) error {
+	return http.ListenAndServe(":"+config.Flags["CELL_APIPORT"], nil)
+}
+
+func MakeNatRoutes(repo *repository.RepositoryService) *NativeApiService {
 	nativeService := NativeApiService{repo}
 
 	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
