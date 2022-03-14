@@ -10,7 +10,7 @@ tags:
   - name: cellphone
   - name: provider
 paths:
-  /Provider/ById/{id}:
+  /Provider/{id}:
     get:
       summary: Lookup provider by id
       description: Lookup provider by id, which is the primary key.
@@ -30,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetProviderByIdResponse"
+                $ref: "#/components/schemas/Provider"
         404:
           description: Provider was not found.
           content:
@@ -43,6 +43,67 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /Provider/{id}/count:
+    get:
+      summary: Gets how many phones a provider has
+      description: Gets how many phones a provider has by its ID
+      tags:
+        - provider
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Provider ID
+          schema:
+            type: integer
+            format: int64
+  /Provider/ByName/{name}:
+    get:
+      summary: Get provider by name
+      description: Gets a provider by its Name
+      tags:
+        - provider
+  /Provider:
+    delete:
+      summary: Deletes an existing Provider
+      tags:
+        - provider
+      parameters:
+      responses:
+    post:
+      summary: Creates a new Provider
+      tags:
+        - provider
+      parameters:
+      responses:
+    patch:
+      summary: Updates a new Provider
+      tags:
+        - provider
+      parameters:
+      responses:
+  /Cellphone/{id}:
+    get:
+      summary: Gets a phone by ID
+      description: Gets a cellphone by its ID
+      tags:
+        - cellphone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Cellphone ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+  /Cellphone:
+    post:
+      summary: Retrieves an existing cellphone and deletes it from the database
+      tags:
+        - cellphone
+      parameters:
+      responses:
 components:
   schemas:
     ApiError:
@@ -52,7 +113,7 @@ components:
       properties:
         error:
           type: string
-    GetProviderByNameResponse:
+    Provider:
       type: object
       properties:
         id:
@@ -63,15 +124,23 @@ components:
         - id
         - name
         - total
-    GetProviderByIdResponse:
+    Cellphone:
       type: object
       properties:
         id:
           type: integer
           format: int64
-          example: 88909
+          example: 22528
+          description: Cellphone's ID
+        provider_id:
+          type: integer
+          format: int64
+          description: The provider that owns this number
+        number:
+          type: string
+          example: "999887766"
+          description: The phone number
       required:
         - id
-        - name
+        - provider_id
         - total
-

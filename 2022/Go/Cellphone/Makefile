@@ -17,8 +17,8 @@ down:
 	docker stop cellapi_instance
 	docker stop celldb_instance
 
-	docker rm cellapi_instance
-	docker rm celldb_instance
+	docker container rm cellapi_instance
+	docker container rm celldb_instance
 
 	docker image rm cellapi:1.0
 	docker image rm celldb:1.0

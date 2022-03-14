@@ -9,7 +9,7 @@ import (
 
 // Default error type for every API response
 type Error struct {
-	errorList []errorData `json:"-"`
+	errorList []errorData
 }
 
 type errorData struct {

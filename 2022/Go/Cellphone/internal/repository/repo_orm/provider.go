@@ -20,7 +20,20 @@ func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error)
 	return nil, nil
 }
 
-func (self *ProviderRepository) InsertSingle(provider *entity.Provider) error {
+func (self *ProviderRepository) GetCount(id int) (int, error) {
+	return 0, nil
+}
+
+func (self *ProviderRepository) Insert(provider *entity.Provider) error {
+	return nil
+}
+
+func (self *ProviderRepository) Delete(id int) error {
+	// TODO
+	return nil
+}
+
+func (self *ProviderRepository) Update(provider *entity.Provider) error {
 	// TODO
 	return nil
 }

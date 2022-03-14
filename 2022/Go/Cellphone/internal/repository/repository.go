@@ -19,16 +19,24 @@ type Repository interface {
 
 type CellphoneRepository interface {
 	Repository
-	ServeSingleFromProvider(providerId int) (*entity.Cellphone, error)
-	InsertSingle(cellphone *entity.Cellphone) error
-	GetAllByProviderName(name string) ([]*entity.Cellphone, error)
-	DeleteAllFromProvider(providerId int) (int, error)
+	// Retrieves a cellphone and deletes it from the database
+	FetchSingle(providerId int) (*entity.Cellphone, error)
+	// Inserts multiple cellphones to a certain provider
+	BulkInsert(providerId int, entities []entity.Cellphone) error
 }
 
 type ProviderRepository interface {
 	Repository
+	// Gets a provider by name
 	GetByName(name string) (*entity.Provider, error)
-	InsertSingle(provider *entity.Provider) error
+	// Gets how many cellphones a provider has by its ID
+	GetCount(id int) (int, error)
+	// Creates a new provider
+	Insert(provider *entity.Provider) error
+	// Deletes an existing provider
+	Delete(id int) error
+	// Updates an existing provider
+	Update(provider *entity.Provider) error
 }
 
 type RepositoryService struct {

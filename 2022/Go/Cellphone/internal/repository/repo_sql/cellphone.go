@@ -27,7 +27,7 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 }
 
 // Retrieves a semi-random phone number and deletes it from the database
-func (self *CellphoneRepository) ServeSingleFromProvider(providerId int) (*entity.Cellphone, error) {
+func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone, error) {
 	query := "SELECT * FROM CELLPHONE WHERE PROVIDER_ID = ? LIMIT 1"
 	queryDelete := "DELETE FROM CELLPHONE WHERE ID = ?;"
 
@@ -93,4 +93,8 @@ func (self *CellphoneRepository) GetAllByProviderName(name string) ([]*entity.Ce
 func (self *CellphoneRepository) DeleteAllFromProvider(providerId int) (int, error) {
 	// TODO
 	return 0, nil
+}
+
+func (self *CellphoneRepository) BulkInsert(providerId int, entities []entity.Cellphone) error {
+	return nil
 }
