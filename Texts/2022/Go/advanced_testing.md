@@ -25,6 +25,6 @@ Summary based on [GopherCon 2017: Mitchell Hashimoto - Advanced Testing with Go
 * Configurability
 * Interfaces
 * Complex struct comparison
-    * Test string
-    * Reflection
+  * Test string
+  * Reflection
 * Expose API with ways of testing the application
