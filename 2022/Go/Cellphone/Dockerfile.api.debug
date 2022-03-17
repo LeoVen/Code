@@ -1,0 +1,30 @@
+FROM golang:1.17
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+
+RUN go mod download
+RUN go mod verify
+
+ENV CELL_DBADDR="celldb"
+ENV CELL_DBNAME="CELLDB"
+ENV CELL_DBPASS="cellpass123"
+ENV CELL_DBPROT="tcp"
+ENV CELL_DBUSER="celluser"
+ENV CELL_APIPORT="8080"
+ENV CELL_APITYPE="2"
+ENV CELL_DBTYPE="1"
+ENV CELL_REPOTYPE="1"
+
+COPY . .
+
+# Get delve
+RUN go install github.com/go-delve/delve/cmd/dlv@v1.7.3
+
+EXPOSE 8080
+# Debug port
+EXPOSE 2345
+
+CMD ["dlv", "debug", "--headless", "--listen=:2345", "--log", "--accept-multiclient", "./cmd/api/main.go"]

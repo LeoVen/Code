@@ -24,8 +24,8 @@ func (self *NativeApiService) Start(config app_config.Main) error {
 func MakeNatRoutes(repo *repository.RepositoryService) *NativeApiService {
 	nativeService := NativeApiService{repo}
 
-	http.HandleFunc("/Cellphone/", nativeService.getCellphone)
-	http.HandleFunc("/Cellphone", nativeService.fetchSingle)
+	http.HandleFunc("/Cellphone", nativeService.getCellphone)
+	http.HandleFunc("/Cellphone/", nativeService.fetchSingle)
 
 	// delete, post, patch
 	http.HandleFunc("/Provider", nativeService.handleProviderCrud)

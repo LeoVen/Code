@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	API_NAT = iota
+	API_MOCK = iota
+	API_NAT
 	API_GIN
 )
 

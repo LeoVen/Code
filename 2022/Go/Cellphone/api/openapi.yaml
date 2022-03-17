@@ -45,7 +45,7 @@ paths:
                 $ref: "#/components/schemas/ApiError"
   /Provider/{id}/count:
     get:
-      summary: Gets how many phones a provider has
+      summary: How many phones a provider has
       description: Gets how many phones a provider has by its ID
       tags:
         - provider
@@ -57,6 +57,32 @@ paths:
           schema:
             type: integer
             format: int64
+      responses:
+        200:
+          description: Lorem ipsum dolor sit amet
+          content:
+            appplication/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    format: int64
+                    example: 64
+                    required: true
+                    description: How many phones exist for the given provider
+        400:
+          description: Provider ID not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        500:
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
   /Provider/ByName/{name}:
     get:
       summary: Get provider by name
@@ -120,6 +146,16 @@ components:
           type: integer
           format: int64
           example: 88909
+          description: Table unique identifier
+        name:
+          type: string
+          example: "Vivo"
+          description: Provider's name
+        total:
+          type: integer
+          format: int64
+          example: 12000
+          description: Total phone numbers stored for this provider
       required:
         - id
         - name

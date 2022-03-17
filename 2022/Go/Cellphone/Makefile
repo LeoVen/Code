@@ -3,10 +3,10 @@
 restart: down up
 
 up:
-	docker build -t cellapi:1.0 -f ./Dockerfile.api .
+	docker build -t cellapi:1.0 -f ./Dockerfile.api.debug .
 	docker build -t celldb:1.0 -f ./Dockerfile.mysql .
 
-	docker run -p 8080:8080 -tid --name cellapi_instance cellapi:1.0
+	docker run -p 8080:8080 -p 2345:2345 -tid --name cellapi_instance cellapi:1.0
 	docker run -tid --name celldb_instance celldb:1.0
 
 	docker network create cell_net
@@ -27,3 +27,9 @@ down:
 
 mysql:
 	mysql -h 127.0.0.1 -P 3310 -u celluser -p CELLDB
+
+dcup:
+	docker-compose up
+
+dcdown:
+	docker-compose down

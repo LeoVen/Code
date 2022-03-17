@@ -11,8 +11,14 @@ type ProviderRepository struct {
 }
 
 func (self *ProviderRepository) GetById(id int) (interface{}, error) {
-	// TODO
-	return nil, nil
+	var result entity.Provider
+	tx := self.Db.Model(&entity.Provider{}).First(&result, id)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return result, nil
 }
 
 func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error) {

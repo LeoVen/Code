@@ -10,16 +10,16 @@ type ProviderRepository struct {
 }
 
 func (self *ProviderRepository) GetById(id int) (interface{}, error) {
-	query := "SELECT * FROM PROVIDER WHERE ID = ?;"
+	query := "SELECT * FROM PROVIDER WHERE ID = ?"
 
-	row := self.Db.QueryRow(query)
+	row := self.Db.QueryRow(query, id)
 
 	if row.Err() != nil {
 		return nil, row.Err()
 	}
 
 	var provider entity.Provider
-	if err := row.Scan(&provider.Id, &provider.Name); err != nil {
+	if err := row.Scan(&provider.Id, &provider.Name, &provider.Total); err != nil {
 		return nil, err
 	}
 

@@ -33,6 +33,21 @@
                 "CELL_DBTYPE=${config:CELL_DBTYPE}",
                 "CELL_REPOTYPE=${config:CELL_REPOTYPE}"
             ]
+        },
+        {
+            "name": "Debug Remote",
+            "type": "go",
+            "debugAdapter": "dlv-dap",
+            "request": "attach",
+            "mode": "remote",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "substitutePath": [
+                {
+                    "from": "${workspaceFolder}",
+                    "to": "/app/"
+                }
+            ]
         }
     ]
 }
