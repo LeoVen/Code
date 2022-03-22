@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "options": {
         "env": {
-            "CELL_DBADDR": "127.0.0.1:3306",
+            "CELL_DBADDR": "127.0.0.1:3310",
             "CELL_DBNAME": "CELLDB",
             "CELL_DBPASS": "cellpass123",
             "CELL_DBPROT": "tcp",

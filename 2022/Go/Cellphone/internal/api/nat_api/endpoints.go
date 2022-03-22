@@ -1,45 +1,37 @@
-package api
+package nat_api
 
 import (
-	"cellphone/internal/app_config"
 	"cellphone/internal/entity"
-	"cellphone/internal/repository"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
-type NativeApiService struct {
-	repo *repository.RepositoryService
-}
-
-func (self *NativeApiService) Start(config app_config.Main) error {
-	return http.ListenAndServe(":"+config.Flags["CELL_APIPORT"], nil)
-}
-
-func MakeNatRoutes(repo *repository.RepositoryService) *NativeApiService {
-	nativeService := NativeApiService{repo}
-
-	http.HandleFunc("/Cellphone", nativeService.getCellphone)
-	http.HandleFunc("/Cellphone/", nativeService.fetchSingle)
-
-	// delete, post, patch
-	http.HandleFunc("/Provider", nativeService.handleProviderCrud)
-	// byId, count
-	http.HandleFunc("/Provider/", nativeService.handleProvider)
-	http.HandleFunc("/Provider/ByName/", nativeService.getProviderByName)
-
-	return &nativeService
-}
-
 func (self *NativeApiService) handleProvider(w http.ResponseWriter, r *http.Request) {
-	// TODO both are gets
-	// /Provider/{id}/count
-	// /Provider/{id}
+	splits := getSplits(r)
+
+	switch len(splits) {
+	case 2:
+		// Provider/{id}
+		self.getProviderById(w, r, splits)
+	case 3:
+		// Provider/{id}/count
+		self.getProviderCount(w, r, splits)
+	default:
+		badRequest(&w)
+	}
+}
+
+func (self *NativeApiService) handleCellphone(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		self.getCellphone(w, r)
+	case "POST":
+		self.bulkInsert(w, r)
+	}
 }
 
 func (self *NativeApiService) handleProviderCrud(w http.ResponseWriter, r *http.Request) {
@@ -51,11 +43,15 @@ func (self *NativeApiService) handleProviderCrud(w http.ResponseWriter, r *http.
 	case "PATCH":
 		self.updateProvider(w, r)
 	default:
-		// TODO 400
+		badRequest(&w)
 	}
 }
 
 func (self *NativeApiService) getCellphone(w http.ResponseWriter, r *http.Request) {
+	// TODO
+}
+
+func (self *NativeApiService) bulkInsert(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
@@ -64,33 +60,21 @@ func (self *NativeApiService) fetchSingle(w http.ResponseWriter, r *http.Request
 	defer r.Body.Close()
 
 	if r.Method != "POST" {
-		// TODO err 400
-	}
-
-	fullPath := r.URL.Path[:]
-	path := r.URL.Path
-
-	if len(path) == 0 {
-		w.WriteHeader(http.StatusBadRequest)
+		badRequest(&w)
 		return
 	}
 
-	if path[0] == '/' {
-		path = path[1:]
-	}
+	splits := getSplits(r)
 
-	paths := strings.Split(path, "/")
-
-	if len(paths) < 2 || paths[1] == "" {
-		w.WriteHeader(http.StatusBadRequest)
+	if len(splits) < 2 || splits[1] == "" {
+		badRequest(&w)
 		return
 	}
 
-	id, err := strconv.Atoi(paths[1])
+	id, err := strconv.Atoi(splits[1])
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(fmt.Sprintf("%s Could not parse id(%s): %s", fullPath, paths[1], err.Error())))
+		serverError(&w, err)
 		return
 	}
 
@@ -102,15 +86,13 @@ func (self *NativeApiService) fetchSingle(w http.ResponseWriter, r *http.Request
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		w.Write([]byte(fmt.Sprintf("%s Could not retrieve entity: %s", fullPath, err.Error())))
 		return
 	}
 
 	jsonContent, err := json.Marshal(cellphone)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(fmt.Sprintf("%s Error: %s", fullPath, err.Error())))
+		serverError(&w, err)
 		return
 	}
 
@@ -120,12 +102,15 @@ func (self *NativeApiService) fetchSingle(w http.ResponseWriter, r *http.Request
 }
 
 // [GET] /Provider/{id}
-func (self *NativeApiService) getProviderById(w http.ResponseWriter, r *http.Request) {
-	// TODO
+func (self *NativeApiService) getProviderById(w http.ResponseWriter, r *http.Request, splits []string) {
+	if r.Method != "GET" {
+		badRequest(&w)
+		return
+	}
 }
 
 // [GET] /Provider/{id}/count
-func (self *NativeApiService) getProviderCount(w http.ResponseWriter, r *http.Request) {
+func (self *NativeApiService) getProviderCount(w http.ResponseWriter, r *http.Request, splits []string) {
 	// TODO
 }
 
@@ -134,28 +119,19 @@ func (self *NativeApiService) getProviderByName(w http.ResponseWriter, r *http.R
 	defer r.Body.Close()
 
 	if r.Method != "GET" {
-		// TODO err 400
-	}
-
-	fullPath := r.URL.Path[:]
-
-	path := r.URL.Path
-
-	if len(path) == 0 {
-		w.WriteHeader(http.StatusBadRequest)
+		badRequest(&w)
 		return
 	}
 
-	// This leading slash is optional per the net/http doc, so try to remove it whenever possible
-	if path[0] == '/' {
-		path = path[1:]
+	paths := getSplits(r)
+
+	if len(paths) == 0 {
+		badRequest(&w)
+		return
 	}
 
-	// Provider, ByName, XXX
-	paths := strings.Split(path, "/")
-
 	if len(paths) < 3 || paths[2] == "" {
-		w.WriteHeader(http.StatusBadRequest)
+		badRequest(&w)
 		return
 	}
 
@@ -169,7 +145,6 @@ func (self *NativeApiService) getProviderByName(w http.ResponseWriter, r *http.R
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		w.Write([]byte(fmt.Sprintf("%s Could not retrieve entity: %s", fullPath, err.Error())))
 		return
 	}
 
@@ -177,7 +152,6 @@ func (self *NativeApiService) getProviderByName(w http.ResponseWriter, r *http.R
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(fmt.Sprintf("%s Error: %s", fullPath, err.Error())))
 		return
 	}
 

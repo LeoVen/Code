@@ -22,15 +22,29 @@ func (self *ProviderRepository) GetById(id int) (interface{}, error) {
 }
 
 func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error) {
-	// TODO
-	return nil, nil
+	var result entity.Provider
+	self.Db.Model(&entity.Provider{}).First(&result, "NAME = ?", name)
+
+	if self.Db.Error != nil {
+		return nil, self.Db.Error
+	}
+
+	return &result, nil
 }
 
-func (self *ProviderRepository) GetCount(id int) (int, error) {
-	return 0, nil
+func (self *ProviderRepository) GetCount(id int) (*int, error) {
+	var result entity.Provider
+	tx := self.Db.Model(&entity.Provider{}).First(&result, id)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return &result.Total, nil
 }
 
 func (self *ProviderRepository) Insert(provider *entity.Provider) error {
+	// TODO
 	return nil
 }
 

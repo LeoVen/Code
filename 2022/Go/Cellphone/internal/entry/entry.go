@@ -21,7 +21,7 @@ func InitializeBackend(conf config.Main) (*sql.DB, *repository.RepositoryService
 		return nil, nil, nil, err
 	}
 
-	apiEngine := api.MakeRoutes(conf, repo)
+	apiEngine := api.NewServer(conf, repo)
 
 	return db, repo, apiEngine, nil
 }

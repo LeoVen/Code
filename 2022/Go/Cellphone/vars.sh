@@ -1,4 +1,4 @@
-export CELL_DBADDR="127.0.0.1:3306"
+export CELL_DBADDR="127.0.0.1:3310"
 export CELL_DBNAME="CELLDB"
 export CELL_DBPASS="cellpass123"
 export CELL_DBPROT="tcp"

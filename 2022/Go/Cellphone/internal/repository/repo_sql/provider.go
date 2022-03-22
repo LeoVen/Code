@@ -41,12 +41,23 @@ func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error)
 	return &entity, err
 }
 
-func (self *ProviderRepository) GetCount(id int) (int, error) {
-	return 0, nil
+func (self *ProviderRepository) GetCount(id int) (*int, error) {
+	query := "SELECT Total from PROVIDER WHERE id = ?;"
+
+	row := self.Db.QueryRow(query, id)
+
+	if row.Err() != nil {
+		return nil, row.Err()
+	}
+
+	var result int
+	err := row.Scan(&result)
+
+	return &result, err
 }
 
 func (self *ProviderRepository) Insert(provider *entity.Provider) error {
-	query := "INSERT INTO PROVIDER (NAME) VALUES (?);"
+	query := "INSERT INTO PROVIDER (NAME, TOTAL) VALUES (?, ?);"
 
 	tx, err := self.Db.Begin()
 
@@ -54,21 +65,27 @@ func (self *ProviderRepository) Insert(provider *entity.Provider) error {
 		return err
 	}
 
-	_, err = tx.Exec(query, provider.Name)
+	res, err := tx.Exec(query, provider.Name, provider.Total)
 
 	if err != nil {
 		return err
 	}
 
-	tx.Commit()
+	lines, err := res.RowsAffected()
 
-	return nil
+	if lines == 0 {
+		// TODO
+	}
+
+	return tx.Commit()
 }
 
 func (self *ProviderRepository) Delete(id int) error {
+	// TODO
 	return nil
 }
 
 func (self *ProviderRepository) Update(provider *entity.Provider) error {
+	// TODO
 	return nil
 }

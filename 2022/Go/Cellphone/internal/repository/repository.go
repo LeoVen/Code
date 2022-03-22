@@ -30,7 +30,7 @@ type ProviderRepository interface {
 	// Gets a provider by name
 	GetByName(name string) (*entity.Provider, error)
 	// Gets how many cellphones a provider has by its ID
-	GetCount(id int) (int, error)
+	GetCount(id int) (*int, error)
 	// Creates a new provider
 	Insert(provider *entity.Provider) error
 	// Deletes an existing provider

@@ -19,7 +19,7 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 	}
 
 	var phone entity.Cellphone
-	if err := row.Scan(&phone.Id, &phone.Number, &phone.ProviderId); err != nil {
+	if err := row.Scan(&phone.Id, &phone.ProviderId, &phone.Number); err != nil {
 		return nil, err
 	}
 
@@ -85,6 +85,7 @@ func (self *CellphoneRepository) InsertSingle(cellphone *entity.Cellphone) error
 func (self *CellphoneRepository) GetAllByProviderName(name string) ([]*entity.Cellphone, error) {
 	// queryProvider := "SELECT * FROM PROVIDER WHERE NAME = ?"
 	// query := ""
+	// TODO
 
 	return nil, nil
 

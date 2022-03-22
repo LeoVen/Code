@@ -1,4 +1,4 @@
-package error
+package errors
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-// Default error type for every API response
-type Error struct {
+// Default error type for internal telemetry
+type Errors struct {
 	errorList []errorData
 }
 
@@ -17,7 +17,7 @@ type errorData struct {
 	callSite string
 }
 
-func NewErrorResponse(err ...error) Error {
+func NewError(err ...error) Errors {
 	res := make([]errorData, 0)
 
 	for _, e := range err {
@@ -28,10 +28,10 @@ func NewErrorResponse(err ...error) Error {
 		})
 	}
 
-	return Error{errorList: res}
+	return Errors{errorList: res}
 }
 
-func (self *Error) Error() string {
+func (self *Errors) Error() string {
 	sb := strings.Builder{}
 
 	for i, data := range self.errorList {
@@ -42,7 +42,7 @@ func (self *Error) Error() string {
 }
 
 // Returns the last added error, if any
-func (self *Error) Last() error {
+func (self *Errors) Last() error {
 	l := len(self.errorList)
 
 	if l == 0 {
@@ -52,7 +52,7 @@ func (self *Error) Last() error {
 	return self.errorList[l-1].err
 }
 
-func (self *Error) AddError(err error) {
+func (self *Errors) AddError(err error) {
 	self.errorList = append(self.errorList, errorData{
 		err: err,
 		// 2 so it skips the getMetadata() and this function

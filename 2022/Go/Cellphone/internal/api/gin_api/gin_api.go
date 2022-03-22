@@ -1,6 +1,7 @@
-package api
+package gin_api
 
 import (
+	"cellphone/internal/api/middleware"
 	"cellphone/internal/app_config"
 	"cellphone/internal/entity"
 	"cellphone/internal/repository"
@@ -11,23 +12,50 @@ import (
 )
 
 type GinApi struct {
+	http.Handler
 	engine *gin.Engine
 }
 
 func (self *GinApi) Start(config app_config.Main) error {
-	return self.engine.Run()
+	return http.ListenAndServe(":"+config.Flags["CELL_APIPORT"], self)
 }
 
-func MakeGinRoutes(repo *repository.RepositoryService) *GinApi {
+func NewServer(repo *repository.RepositoryService) *GinApi {
 
 	r := gin.Default()
 
 	r.GET("/Cellphone/:id", func(ctx *gin.Context) {
+		idParam := ctx.Param("id")
+
+		if idParam == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "URL Parameter id is missing"})
+			return
+		}
+
+		id, err := strconv.Atoi(idParam)
+
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		entity, err := repo.Cellphone.GetById(id)
+
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, entity)
+	})
+
+	r.POST("/Cellphone/:id", func(ctx *gin.Context) {
 		// TODO
+		ctx.Status(http.StatusNotImplemented)
 	})
 
 	r.POST("/Cellphone", func(ctx *gin.Context) {
 		// TODO
+		ctx.Status(http.StatusNotImplemented)
 	})
 
 	r.GET("/Provider/:id", func(ctx *gin.Context) {
@@ -57,6 +85,7 @@ func MakeGinRoutes(repo *repository.RepositoryService) *GinApi {
 
 	r.GET("/Provider/:id/Count", func(ctx *gin.Context) {
 		// TODO
+		ctx.Status(http.StatusNotImplemented)
 	})
 
 	r.GET("/Provider/ByName/:name", func(ctx *gin.Context) {
@@ -79,6 +108,7 @@ func MakeGinRoutes(repo *repository.RepositoryService) *GinApi {
 
 	r.DELETE("/Provider", func(ctx *gin.Context) {
 		// TODO
+		ctx.Status(http.StatusNotImplemented)
 	})
 
 	r.POST("/Provider", func(ctx *gin.Context) {
@@ -98,7 +128,13 @@ func MakeGinRoutes(repo *repository.RepositoryService) *GinApi {
 
 	r.PATCH("/Provider", func(ctx *gin.Context) {
 		// TODO
+		ctx.Status(http.StatusNotImplemented)
 	})
 
-	return &GinApi{r}
+	server := &GinApi{
+		engine:  r,
+		Handler: middleware.AuthMiddleware(r),
+	}
+
+	return server
 }

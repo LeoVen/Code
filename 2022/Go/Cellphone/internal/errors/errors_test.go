@@ -1,4 +1,4 @@
-package error
+package errors_test
 
 import (
 	"errors"
@@ -6,19 +6,19 @@ import (
 	"testing"
 )
 
-func example3() *Error {
-	var err Error
+func example3() *Errors {
+	var err Errors
 	err.AddError(errors.New("Example error 3"))
 	return &err
 }
 
-func example2() *Error {
+func example2() *Errors {
 	err := example3()
 	err.AddError(errors.New("Example error 2"))
 	return err
 }
 
-func example1() *Error {
+func example1() *Errors {
 	err := example2()
 	err.AddError(errors.New("Example error 1"))
 	return err

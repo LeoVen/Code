@@ -5,13 +5,13 @@ type ApiError struct {
 }
 
 type Cellphone struct {
-	Id         int    `json:"id"`
-	ProviderId int    `json:"provider_id"`
-	Number     string `json:"number"`
+	Id         int    `json:"id" gorm:"column:ID"`
+	ProviderId int    `json:"provider_id" gorm:"column:PROVIDER_ID"`
+	Number     string `json:"number" gorm:"column:NUMBER"`
 }
 
 type Provider struct {
-	Id    int    `json:"id"`
-	Name  string `json:"name"`
-	Total int    `json:"total"`
+	Id    int    `json:"id" gorm:"column:ID"`
+	Name  string `json:"name" gorm:"column:NAME"`
+	Total int    `json:"total" gorm:"column:TOTAL"`
 }

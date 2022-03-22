@@ -123,9 +123,21 @@ paths:
             type: integer
             format: int64
       responses:
+    post:
+      summary: Inserts multiple cellphones
+      description: Inserts multiple cellphones into the database for a given Provider ID
+      tags:
+        - cellphone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Provider ID
+      responses:
   /Cellphone:
     post:
-      summary: Retrieves an existing cellphone and deletes it from the database
+      summary: Fetch cellphone
+      description: Retrieves an existing cellphone and deletes it from the database
       tags:
         - cellphone
       parameters:
