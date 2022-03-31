@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  api:
+    image: golang:1.17
+    container_name: cellapi_instance
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    environment:
+      CELL_DBADDR: celldb
+      CELL_DBNAME: CELLDB
+      CELL_DBPASS: cellpass123
+      CELL_DBPROT: tcp
+      CELL_DBUSER: celluser
+      CELL_APIPORT: 8080
+      CELL_APITYPE: 1
+      CELL_DBTYPE: 1
+      CELL_REPOTYPE: 1
+    entrypoint: /app/main
+    ports:
+      - 8080:8080
+
+  db:
+    image: mysql:8.0
+    container_name: celldb_instance
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mysql
+    environment:
+      MYSQL_DATABASE: CELLDB
+      MYSQL_USER: celluser
+      MYSQL_PASSWORD: cellpass123
+      MYSQL_ROOT_PASSWORD: toor
+    ports:
+      - 3306:3306
+    volumes:
+      - ./migration:/docker-entrypoint-initdb.d
+    command: ["mysqld"]
