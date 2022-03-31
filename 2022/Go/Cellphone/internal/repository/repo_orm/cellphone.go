@@ -18,14 +18,14 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 		return nil, tx.Error
 	}
 
-	return result, nil
+	return &result, nil
 }
 
 func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone, error) {
 	var result entity.Cellphone
 
 	self.Db.Model(&entity.Cellphone{}).Where(&entity.Cellphone{
-		ProviderId: providerId,
+		ProviderId: int32(providerId),
 	}).First(&result)
 
 	if self.Db.Error != nil {

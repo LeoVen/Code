@@ -40,7 +40,8 @@ func (self *ProviderRepository) GetCount(id int) (*int, error) {
 		return nil, tx.Error
 	}
 
-	return &result.Total, nil
+	v := int(result.Total)
+	return &v, nil
 }
 
 func (self *ProviderRepository) Insert(provider *entity.Provider) error {

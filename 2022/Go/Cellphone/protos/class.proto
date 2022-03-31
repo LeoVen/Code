@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "cellphone/protos/go;entity";
+
+message ApiError {
+    string Error = 1 [json_name="error"];
+}
+
+message Cellphone {
+    int32 Id = 1;
+    int32 ProviderId = 2;
+    string Number = 3;
+}
+
+message Provider {
+    int32 Id = 1;
+    string Name = 2;
+    int32 Total = 3;
+}

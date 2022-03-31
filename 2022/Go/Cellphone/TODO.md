@@ -1,3 +1,5 @@
+# TODO
+
 [X] Metodo de pegar um telefone aleatório e em seguida deletar ele
 [ ] Contar quantos telefones estao disponíveis para cada provedor
 [X] API Nativo e Gin

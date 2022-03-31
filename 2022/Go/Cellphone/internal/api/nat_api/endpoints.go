@@ -31,6 +31,8 @@ func (self *NativeApiService) handleCellphone(w http.ResponseWriter, r *http.Req
 		self.getCellphone(w, r)
 	case "POST":
 		self.bulkInsert(w, r)
+	default:
+		badRequest(&w)
 	}
 }
 

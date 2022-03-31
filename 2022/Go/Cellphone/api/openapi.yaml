@@ -59,7 +59,7 @@ paths:
             format: int64
       responses:
         200:
-          description: Lorem ipsum dolor sit amet
+          description: Provider was found and the given count returned
           content:
             appplication/json:
               schema:
