@@ -22,7 +22,7 @@ type CellphoneRepository interface {
 	// Retrieves a cellphone and deletes it from the database
 	FetchSingle(providerId int) (*entity.Cellphone, error)
 	// Inserts multiple cellphones to a certain provider
-	BulkInsert(providerId int, entities []entity.Cellphone) error
+	BulkInsert(providerId int, entities []*entity.Cellphone) error
 }
 
 type ProviderRepository interface {

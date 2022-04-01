@@ -4,10 +4,6 @@ set -e
 
 source ./scripts/log.sh
 
-if [ -x "$(command -v docker)" ]; then
-    log_err "Docker is not installed"
-fi
-
 if ! docker info > /dev/null 2>&1; then
     log_err "Docker is not running"
 fi

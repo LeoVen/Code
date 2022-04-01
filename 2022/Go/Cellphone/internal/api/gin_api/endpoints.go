@@ -3,6 +3,8 @@ package gin_api
 import (
 	"cellphone/internal/entity"
 	"cellphone/internal/repository"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -36,8 +38,44 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 	})
 
 	r.POST("/Cellphone/:id", func(ctx *gin.Context) {
-		// TODO
-		ctx.Status(http.StatusNotImplemented)
+		idParam := ctx.Param("id")
+
+		if idParam == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Missing required {id} parameter"})
+			return
+		}
+
+		id, err := strconv.Atoi(idParam)
+
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		bytes, err := ioutil.ReadAll(ctx.Request.Body)
+
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		var values []*entity.Cellphone
+
+		err = json.Unmarshal(bytes, &values)
+
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		err = repo.Cellphone.BulkInsert(id, values)
+
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.Status(http.StatusOK)
 	})
 
 	r.POST("/Cellphone", func(ctx *gin.Context) {
@@ -139,7 +177,7 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 			return
 		}
 
-		ctx.JSON(http.StatusOK, entity)
+		ctx.JSON(http.StatusOK, &entity)
 	})
 
 	r.POST("/Provider", func(ctx *gin.Context) {

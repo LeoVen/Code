@@ -2,6 +2,7 @@ package repo_orm
 
 import (
 	"cellphone/internal/entity"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -18,7 +19,7 @@ func (self *ProviderRepository) GetById(id int) (interface{}, error) {
 		return nil, tx.Error
 	}
 
-	return result, nil
+	return &result, nil
 }
 
 func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error) {
@@ -46,15 +47,15 @@ func (self *ProviderRepository) GetCount(id int) (*int, error) {
 
 func (self *ProviderRepository) Insert(provider *entity.Provider) error {
 	// TODO
-	return nil
+	return errors.New("Unimplemented")
 }
 
 func (self *ProviderRepository) Delete(id int) error {
 	// TODO
-	return nil
+	return errors.New("Unimplemented")
 }
 
 func (self *ProviderRepository) Update(provider *entity.Provider) error {
 	// TODO
-	return nil
+	return errors.New("Unimplemented")
 }

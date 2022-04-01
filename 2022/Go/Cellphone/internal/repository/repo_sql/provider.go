@@ -3,6 +3,7 @@ package repo_sql
 import (
 	"cellphone/internal/entity"
 	"database/sql"
+	"errors"
 )
 
 type ProviderRepository struct {
@@ -23,7 +24,7 @@ func (self *ProviderRepository) GetById(id int) (interface{}, error) {
 		return nil, err
 	}
 
-	return provider, nil
+	return &provider, nil
 }
 
 func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error) {
@@ -82,10 +83,10 @@ func (self *ProviderRepository) Insert(provider *entity.Provider) error {
 
 func (self *ProviderRepository) Delete(id int) error {
 	// TODO
-	return nil
+	return errors.New("Unimplemented")
 }
 
 func (self *ProviderRepository) Update(provider *entity.Provider) error {
 	// TODO
-	return nil
+	return errors.New("Unimplemented")
 }
