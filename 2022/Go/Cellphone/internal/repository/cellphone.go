@@ -5,7 +5,7 @@ import (
 	"cellphone/internal/repository/repo_sql"
 	"database/sql"
 
-	mysqlGorm "gorm.io/driver/mysql"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +26,7 @@ func newCellphoneRepositorySql(conn *sql.DB) (*repo_sql.CellphoneRepository, err
 }
 
 func newCellphoneRepositoryGorm(conn *sql.DB) (*repo_orm.CellphoneRepository, error) {
-	gormDB, err := gorm.Open(mysqlGorm.New(mysqlGorm.Config{
+	gormDB, err := gorm.Open(mysql.New(mysql.Config{
 		Conn: conn,
 	}))
 

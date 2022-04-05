@@ -1,7 +1,7 @@
 package repo_orm
 
 import (
-	"cellphone/internal/entity"
+	pb "cellphone/protos/go"
 	"errors"
 	"strings"
 
@@ -12,9 +12,9 @@ type CellphoneRepository struct {
 	Db *gorm.DB
 }
 
-func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
-	var result entity.Cellphone
-	tx := self.Db.Model(&entity.Cellphone{}).First(&result, id)
+func (self *CellphoneRepository) GetById(id int) (*pb.Cellphone, error) {
+	var result pb.Cellphone
+	tx := self.Db.Model(&pb.Cellphone{}).First(&result, id)
 
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -23,10 +23,10 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 	return &result, nil
 }
 
-func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone, error) {
-	var result entity.Cellphone
+func (self *CellphoneRepository) FetchSingle(providerId int) (*pb.Cellphone, error) {
+	var result pb.Cellphone
 
-	self.Db.Model(&entity.Cellphone{}).Where(&entity.Cellphone{
+	self.Db.Model(&pb.Cellphone{}).Where(&pb.Cellphone{
 		ProviderId: int32(providerId),
 	}).First(&result)
 
@@ -45,7 +45,7 @@ func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone,
 		return nil, tx.Error
 	}
 
-	self.Db.Model(&entity.Cellphone{}).Delete(&entity.Cellphone{}, 0)
+	self.Db.Model(&pb.Cellphone{}).Delete(&pb.Cellphone{}, 0)
 
 	if self.Db.Error != nil {
 		return nil, self.Db.Error
@@ -54,9 +54,9 @@ func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone,
 	return &result, nil
 }
 
-func (self *CellphoneRepository) BulkInsert(providerId int, entities []*entity.Cellphone) error {
+func (self *CellphoneRepository) BulkInsert(providerId int, entities []*pb.Cellphone) (int, error) {
 	if len(entities) == 0 {
-		return errors.New("bulkInsert received empty array")
+		return 0, errors.New("bulkInsert received empty array")
 	}
 
 	query := "INSERT INTO CELLPHONE (PROVIDER_ID, NUMBER) VALUES"
@@ -80,12 +80,12 @@ func (self *CellphoneRepository) BulkInsert(providerId int, entities []*entity.C
 	tx := self.Db.Exec(fullQuery, values...)
 
 	if tx.Error != nil {
-		return tx.Error
+		return 0, tx.Error
 	}
 
 	if tx.RowsAffected <= 0 {
-		return errors.New("bulkInsert failed with no rows affected")
+		return 0, errors.New("bulkInsert failed with no rows affected")
 	}
 
-	return nil
+	return int(tx.RowsAffected), nil
 }

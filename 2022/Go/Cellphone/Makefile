@@ -5,10 +5,10 @@ restart: down up
 
 restart_debug: down up_debug
 
-up:
+up: protos
 	@./scripts/docker.up.sh local
 
-up_debug:
+up_debug: protos
 	@./scripts/docker.up.sh debug
 
 down:

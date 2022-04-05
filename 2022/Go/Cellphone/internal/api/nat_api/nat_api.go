@@ -3,28 +3,29 @@ package nat_api
 import (
 	"cellphone/internal/api/middleware"
 	"cellphone/internal/app_config"
-	"cellphone/internal/entity"
 	"cellphone/internal/repository"
 	"cellphone/internal/telemetry"
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	pb "cellphone/protos/go"
 )
 
 type NativeApiService struct {
 	http.Handler
-	repo      *repository.RepositoryService
-	telemetry *telemetry.Telemetry
+	repo *repository.RepositoryService
+	tel  *telemetry.Telemetry
 }
 
 func (self *NativeApiService) Start(config app_config.Main) error {
 	return http.ListenAndServe(":"+config.Flags["CELL_APIPORT"], self)
 }
 
-func NewServer(repo *repository.RepositoryService) *NativeApiService {
+func NewServer(repo *repository.RepositoryService, tel *telemetry.Telemetry) *NativeApiService {
 	server := &NativeApiService{
-		repo:      repo,
-		telemetry: nil,
+		repo: repo,
+		tel:  tel,
 	}
 
 	mux := http.NewServeMux()
@@ -44,7 +45,7 @@ func NewServer(repo *repository.RepositoryService) *NativeApiService {
 }
 
 func badRequest(w *http.ResponseWriter) {
-	data := entity.ApiError{
+	data := pb.ApiError{
 		Error: "Bad Request",
 	}
 
@@ -58,7 +59,7 @@ func badRequest(w *http.ResponseWriter) {
 func serverError(w *http.ResponseWriter, err error) {
 	// e := errors.NewError(err)
 
-	data := entity.ApiError{
+	data := pb.ApiError{
 		Error: "Internal Server Error",
 	}
 
@@ -70,7 +71,7 @@ func serverError(w *http.ResponseWriter, err error) {
 }
 
 func notFound(w *http.ResponseWriter) {
-	data := entity.ApiError{
+	data := pb.ApiError{
 		Error: "Not found",
 	}
 

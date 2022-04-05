@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "cellphone/protos/go;cellphone";
+
+import "class.proto";
+import "request.proto";
+import "response.proto";
+
+service Service {
+    // Cellphone
+    rpc GetCellphoneById(IdRequest) returns (Cellphone);
+    rpc FetchSingle(FetchSingleRequest) returns (FetchSingleResponse);
+    rpc BulkInsert(BulkInsertRequest) returns (BulkInsertResponse);
+
+    // Provider
+    rpc GetProviderById(IdRequest) returns (Provider);
+}

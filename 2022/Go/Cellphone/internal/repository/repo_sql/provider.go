@@ -1,7 +1,7 @@
 package repo_sql
 
 import (
-	"cellphone/internal/entity"
+	pb "cellphone/protos/go"
 	"database/sql"
 	"errors"
 )
@@ -10,7 +10,7 @@ type ProviderRepository struct {
 	Db *sql.DB
 }
 
-func (self *ProviderRepository) GetById(id int) (interface{}, error) {
+func (self *ProviderRepository) GetById(id int) (*pb.Provider, error) {
 	query := "SELECT * FROM PROVIDER WHERE ID = ?"
 
 	row := self.Db.QueryRow(query, id)
@@ -19,7 +19,7 @@ func (self *ProviderRepository) GetById(id int) (interface{}, error) {
 		return nil, row.Err()
 	}
 
-	var provider entity.Provider
+	var provider pb.Provider
 	if err := row.Scan(&provider.Id, &provider.Name, &provider.Total); err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (self *ProviderRepository) GetById(id int) (interface{}, error) {
 	return &provider, nil
 }
 
-func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error) {
+func (self *ProviderRepository) GetByName(name string) (*pb.Provider, error) {
 	query := "SELECT * FROM PROVIDER WHERE NAME = ?;"
 
 	row := self.Db.QueryRow(query, name)
@@ -36,7 +36,7 @@ func (self *ProviderRepository) GetByName(name string) (*entity.Provider, error)
 		return nil, row.Err()
 	}
 
-	var entity entity.Provider
+	var entity pb.Provider
 	err := row.Scan(&entity.Id, &entity.Name, &entity.Total)
 
 	return &entity, err
@@ -57,7 +57,7 @@ func (self *ProviderRepository) GetCount(id int) (*int, error) {
 	return &result, err
 }
 
-func (self *ProviderRepository) Insert(provider *entity.Provider) error {
+func (self *ProviderRepository) Insert(provider *pb.Provider) error {
 	query := "INSERT INTO PROVIDER (NAME, TOTAL) VALUES (?, ?);"
 
 	tx, err := self.Db.Begin()
@@ -86,7 +86,7 @@ func (self *ProviderRepository) Delete(id int) error {
 	return errors.New("Unimplemented")
 }
 
-func (self *ProviderRepository) Update(provider *entity.Provider) error {
+func (self *ProviderRepository) Update(provider *pb.Provider) error {
 	// TODO
 	return errors.New("Unimplemented")
 }

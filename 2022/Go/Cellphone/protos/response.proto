@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "cellphone/protos/go;cellphone";
+
+import "class.proto";
+
+message FetchSingleResponse {
+    int32 Id = 1;
+    int32 ProviderId = 2;
+    string Number = 3;
+}
+
+message BulkInsertResponse {
+    int64 total = 1;
+}

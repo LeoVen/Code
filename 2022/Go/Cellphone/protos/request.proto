@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "cellphone/protos/go;cellphone";
+
+import "class.proto";
+
+message IdRequest {
+    int64 id = 1;
+}
+
+message FetchSingleRequest {
+    int64 id = 1;
+}
+
+message BulkInsertRequest {
+    repeated Cellphone phones = 1;
+}

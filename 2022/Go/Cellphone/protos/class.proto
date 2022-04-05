@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "cellphone/protos/go;entity";
+option go_package = "cellphone/protos/go;cellphone";
 
 message ApiError {
     string Error = 1 [json_name="error"];

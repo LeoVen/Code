@@ -1,7 +1,7 @@
 package repo_sql
 
 import (
-	"cellphone/internal/entity"
+	pb "cellphone/protos/go"
 	"database/sql"
 	"errors"
 )
@@ -10,7 +10,7 @@ type CellphoneRepository struct {
 	Db *sql.DB
 }
 
-func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
+func (self *CellphoneRepository) GetById(id int) (*pb.Cellphone, error) {
 	query := "SELECT * FROM CELLPHONE WHERE ID = ?;"
 
 	row := self.Db.QueryRow(query, id)
@@ -19,7 +19,7 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 		return nil, row.Err()
 	}
 
-	var phone entity.Cellphone
+	var phone pb.Cellphone
 	if err := row.Scan(&phone.Id, &phone.ProviderId, &phone.Number); err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (self *CellphoneRepository) GetById(id int) (interface{}, error) {
 }
 
 // Retrieves a semi-random phone number and deletes it from the database
-func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone, error) {
+func (self *CellphoneRepository) FetchSingle(providerId int) (*pb.Cellphone, error) {
 	query := "SELECT * FROM CELLPHONE WHERE PROVIDER_ID = ? LIMIT 1"
 	queryDelete := "DELETE FROM CELLPHONE WHERE ID = ?;"
 
@@ -38,7 +38,7 @@ func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone,
 		return nil, row.Err()
 	}
 
-	var entity entity.Cellphone
+	var entity pb.Cellphone
 
 	err := row.Scan(&entity.Id, &entity.ProviderId, &entity.Number)
 
@@ -63,6 +63,6 @@ func (self *CellphoneRepository) FetchSingle(providerId int) (*entity.Cellphone,
 	return &entity, nil
 }
 
-func (self *CellphoneRepository) BulkInsert(providerId int, entities []*entity.Cellphone) error {
-	return errors.New("Unimplemented")
+func (self *CellphoneRepository) BulkInsert(providerId int, entities []*pb.Cellphone) (int, error) {
+	return 0, errors.New("Unimplemented")
 }

@@ -1,7 +1,6 @@
 package gin_api
 
 import (
-	"cellphone/internal/entity"
 	"cellphone/internal/repository"
 	"encoding/json"
 	"io/ioutil"
@@ -9,6 +8,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	pb "cellphone/protos/go"
 )
 
 func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
@@ -59,7 +60,7 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 			return
 		}
 
-		var values []*entity.Cellphone
+		var values []*pb.Cellphone
 
 		err = json.Unmarshal(bytes, &values)
 
@@ -68,14 +69,14 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 			return
 		}
 
-		err = repo.Cellphone.BulkInsert(id, values)
+		total, err := repo.Cellphone.BulkInsert(id, values)
 
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
-		ctx.Status(http.StatusOK)
+		ctx.JSON(http.StatusOK, gin.H{"total": &total})
 	})
 
 	r.POST("/Cellphone", func(ctx *gin.Context) {
@@ -152,7 +153,7 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 	})
 
 	r.DELETE("/Provider", func(ctx *gin.Context) {
-		var entity entity.Provider
+		var entity pb.Provider
 		if err := ctx.ShouldBindJSON(&entity); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -181,7 +182,7 @@ func makeGinRoutes(repo *repository.RepositoryService, r *gin.Engine) {
 	})
 
 	r.POST("/Provider", func(ctx *gin.Context) {
-		var provider entity.Provider
+		var provider pb.Provider
 		if err := ctx.ShouldBindJSON(&provider); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

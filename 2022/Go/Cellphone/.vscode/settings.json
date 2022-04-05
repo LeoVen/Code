@@ -1,4 +1,9 @@
 {
+    "protoc": {
+        "options": [
+            "--proto_path=${workspaceFolder}/protos"
+        ]
+    },
     "CELL_DBADDR": "127.0.0.1:3310",
     "CELL_DBNAME": "CELLDB",
     "CELL_DBPASS": "cellpass123",

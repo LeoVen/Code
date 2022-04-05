@@ -2,9 +2,10 @@ package repository
 
 import (
 	"cellphone/internal/app_config"
-	"cellphone/internal/entity"
 	"database/sql"
 	"log"
+
+	pb "cellphone/protos/go"
 )
 
 const (
@@ -13,30 +14,28 @@ const (
 	REPO_GORM
 )
 
-type Repository interface {
-	GetById(id int) (interface{}, error)
-}
-
 type CellphoneRepository interface {
-	Repository
+	// Gets a cellphone by Id
+	GetById(id int) (*pb.Cellphone, error)
 	// Retrieves a cellphone and deletes it from the database
-	FetchSingle(providerId int) (*entity.Cellphone, error)
-	// Inserts multiple cellphones to a certain provider
-	BulkInsert(providerId int, entities []*entity.Cellphone) error
+	FetchSingle(providerId int) (*pb.Cellphone, error)
+	// Inserts multiple cellphones to a certain provider and returns the number of inserted phones
+	BulkInsert(providerId int, entities []*pb.Cellphone) (int, error)
 }
 
 type ProviderRepository interface {
-	Repository
+	// Gets a provider by Id
+	GetById(id int) (*pb.Provider, error)
 	// Gets a provider by name
-	GetByName(name string) (*entity.Provider, error)
+	GetByName(name string) (*pb.Provider, error)
 	// Gets how many cellphones a provider has by its ID
 	GetCount(id int) (*int, error)
 	// Creates a new provider
-	Insert(provider *entity.Provider) error
+	Insert(provider *pb.Provider) error
 	// Deletes an existing provider
 	Delete(id int) error
 	// Updates an existing provider
-	Update(provider *entity.Provider) error
+	Update(provider *pb.Provider) error
 }
 
 type RepositoryService struct {

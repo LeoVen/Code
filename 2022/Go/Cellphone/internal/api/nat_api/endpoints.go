@@ -1,13 +1,14 @@
 package nat_api
 
 import (
-	"cellphone/internal/entity"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
+	pb "cellphone/protos/go"
 )
 
 func (self *NativeApiService) handleProvider(w http.ResponseWriter, r *http.Request) {
@@ -188,7 +189,7 @@ func (self *NativeApiService) createProvider(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	var provider entity.Provider
+	var provider pb.Provider
 
 	err = json.Unmarshal(bytes, &provider)
 
