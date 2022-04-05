@@ -3,11 +3,11 @@ version: '3.8'
 services:
 
   cellapi:
-    image: cellapi:2.0
-    container_name: icellapi
+    image: cellapi_dbg:1.0
+    container_name: icellapi_dbg
     build:
-      context: .
-      dockerfile: docker/Dockerfile.api
+      context: ../
+      dockerfile: docker/Dockerfile.api.debug
     environment:
       CELL_DBADDR: celldb
       CELL_DBNAME: CELLDB
@@ -20,14 +20,15 @@ services:
       CELL_REPOTYPE: 1
     ports:
       - 8880:8080
+      - 2345:2345
     networks:
-      - cellnet
+      - cellnet_dbg
 
   celldb:
-    image: celldb:2.0
-    container_name: icelldb
+    image: celldb_dbg:1.0
+    container_name: icelldb_dbg
     build:
-      context: .
+      context: ../
       dockerfile: docker/Dockerfile.mysql
     environment:
       MYSQL_DATABASE: CELLDB
@@ -37,7 +38,7 @@ services:
     ports:
       - 3310:3306
     networks:
-      - cellnet
+      - cellnet_dbg
 
 networks:
-  cellnet:
+  cellnet_dbg:
