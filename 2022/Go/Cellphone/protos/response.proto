@@ -4,12 +4,44 @@ option go_package = "cellphone/protos/go;cellphone";
 
 import "class.proto";
 
+
+// Cellphone
+
+message GetCellphoneByIdResponse {
+    Cellphone cellphone = 1;
+}
+
 message FetchSingleResponse {
-    int32 Id = 1;
-    int32 ProviderId = 2;
-    string Number = 3;
+    Cellphone cellphone = 1;
 }
 
 message BulkInsertResponse {
+    int64 inserted = 1;
+}
+
+
+// Provider
+
+message GetProviderByIdResponse {
+    Provider provider = 1;
+}
+
+message GetProviderByNameResponse {
+    Provider provider = 1;
+}
+
+message GetCountResponse {
     int64 total = 1;
+}
+
+message InsertProviderResponse {
+    Provider provider = 1;
+}
+
+message DeleteProviderResponse {
+    Provider provider = 1;
+}
+
+message UpdateProviderResponse {
+    Provider provider = 1;
 }

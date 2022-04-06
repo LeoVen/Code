@@ -4,7 +4,9 @@ option go_package = "cellphone/protos/go;cellphone";
 
 import "class.proto";
 
-message IdRequest {
+// Cellphone
+
+message GetCellphoneByIdRequest {
     int64 id = 1;
 }
 
@@ -14,4 +16,31 @@ message FetchSingleRequest {
 
 message BulkInsertRequest {
     repeated Cellphone phones = 1;
+}
+
+
+// Provider
+
+message GetProviderByIdRequest {
+    int64 id = 1;
+}
+
+message GetProviderByNameRequest {
+    string name = 1;
+}
+
+message GetCountRequest {
+    int64 id = 1;
+}
+
+message InsertProviderRequest {
+    Provider provider = 1;
+}
+
+message DeleteProviderRequest {
+    int64 id = 1;
+}
+
+message UpdateProviderRequest {
+    Provider provider = 1;
 }

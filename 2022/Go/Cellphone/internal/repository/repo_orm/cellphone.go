@@ -27,7 +27,7 @@ func (self *CellphoneRepository) FetchSingle(providerId int) (*pb.Cellphone, err
 	var result pb.Cellphone
 
 	self.Db.Model(&pb.Cellphone{}).Where(&pb.Cellphone{
-		ProviderId: int32(providerId),
+		ProviderId: int64(providerId),
 	}).First(&result)
 
 	if self.Db.Error != nil {
@@ -69,7 +69,7 @@ func (self *CellphoneRepository) BulkInsert(providerId int, entities []*pb.Cellp
 	for _, entity := range entities {
 		sb.WriteString(" (?, ?),")
 		if entity.ProviderId == 0 {
-			entity.ProviderId = int32(providerId)
+			entity.ProviderId = int64(providerId)
 		}
 		values = append(values, entity.ProviderId, entity.Number)
 	}

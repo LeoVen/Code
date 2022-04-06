@@ -8,16 +8,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.api
-    environment:
-      CELL_DBADDR: celldb
-      CELL_DBNAME: CELLDB
-      CELL_DBPASS: cellpass123
-      CELL_DBPROT: tcp
-      CELL_DBUSER: celluser
-      CELL_APIPORT: 8080
-      CELL_APITYPE: 1
-      CELL_DBTYPE: 1
-      CELL_REPOTYPE: 1
     ports:
       - 8880:8080
     networks:
@@ -29,11 +19,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.mysql
-    environment:
-      MYSQL_DATABASE: CELLDB
-      MYSQL_USER: celluser
-      MYSQL_PASSWORD: cellpass123
-      MYSQL_ROOT_PASSWORD: toor
     ports:
       - 3310:3306
     networks:

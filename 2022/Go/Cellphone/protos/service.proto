@@ -2,16 +2,20 @@ syntax = "proto3";
 
 option go_package = "cellphone/protos/go;cellphone";
 
-import "class.proto";
 import "request.proto";
 import "response.proto";
 
 service Service {
     // Cellphone
-    rpc GetCellphoneById(IdRequest) returns (Cellphone);
+    rpc GetCellphoneById(GetCellphoneByIdRequest) returns (GetCellphoneByIdResponse);
     rpc FetchSingle(FetchSingleRequest) returns (FetchSingleResponse);
     rpc BulkInsert(BulkInsertRequest) returns (BulkInsertResponse);
 
     // Provider
-    rpc GetProviderById(IdRequest) returns (Provider);
+    rpc GetProviderById(GetProviderByIdRequest) returns (GetProviderByIdResponse);
+    rpc GetProviderByName(GetProviderByNameRequest) returns (GetProviderByNameResponse);
+    rpc GetCount(GetCountRequest) returns (GetCountResponse);
+    rpc InsertProvider(InsertProviderRequest) returns (InsertProviderResponse);
+    rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
+    rpc UpdateProvider(UpdateProviderRequest) returns (UpdateProviderResponse);
 }

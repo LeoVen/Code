@@ -6,11 +6,13 @@ import (
 )
 
 type Telemetry struct {
-	out io.Writer
+	out      io.Writer
+	counters map[string]int
+	state    map[string]interface{}
 }
 
 func NewTelemetry(out io.Writer) *Telemetry {
-	return &Telemetry{out}
+	return &Telemetry{out: out}
 }
 
 func (self *Telemetry) Info(str string) {

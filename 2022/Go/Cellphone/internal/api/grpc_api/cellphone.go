@@ -7,7 +7,7 @@ import (
 	pb "cellphone/protos/go"
 )
 
-func (self *GRPCServer) GetCellphoneById(ctx context.Context, req *pb.IdRequest) (*pb.Cellphone, error) {
+func (self *GRPCServer) GetCellphoneById(ctx context.Context, req *pb.GetCellphoneByIdRequest) (*pb.GetCellphoneByIdResponse, error) {
 	id := req.GetId()
 
 	entity, err := self.repo.Cellphone.GetById(int(id))
@@ -16,10 +16,12 @@ func (self *GRPCServer) GetCellphoneById(ctx context.Context, req *pb.IdRequest)
 		return nil, err
 	}
 
-	return &pb.Cellphone{
-		Id:         entity.Id,
-		ProviderId: entity.ProviderId,
-		Number:     entity.Number,
+	return &pb.GetCellphoneByIdResponse{
+		Cellphone: &pb.Cellphone{
+			Id:         entity.Id,
+			ProviderId: entity.ProviderId,
+			Number:     entity.Number,
+		},
 	}, nil
 }
 

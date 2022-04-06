@@ -4,6 +4,9 @@ set -e
 
 source ./scripts/log.sh
 
+local="./docker-compose.yaml"
+debug="./docker/docker-compose-debug.yaml"
+
 if [ "$1" == "i" ]; then
     log_warn "Ignoring errors"
     ignore=true
@@ -15,10 +18,10 @@ if [ "$1" == "up" ]; then
 
     if [ "$2" == "local" ]; then
         log_info "Local env chosen"
-        dockerfile="./docker-compose.yaml"
+        dockerfile=$local
     elif [ "$2" == "debug" ]; then
         log_info "Debug env chosen"
-        dockerfile="./docker/docker-compose-debug.yaml"
+        dockerfile=$debug
     else
         log_err "Invalid first parameter (must be either local or debug): $1"
         exit 1
@@ -49,7 +52,9 @@ elif [ "$1" == "down" ]; then
 
     log_info "Stopping services with docker-compose"
 
-    docker-compose down || $ignore
+    docker-compose -f $local down || $ignore
+
+    docker-compose -f $debug down || $ignore
 
 else
     log_err "Expected up or down, got: $1"
