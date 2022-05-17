@@ -18,6 +18,6 @@ IaaS from the name itself suggests this Cloud service is mainly focused on infra
 
 ## PaaS (Platform as a Service)
 
-PaaS is the third and last sub-category of SAAS which offers cloud computing, where the provider allows you to use their cloud services such as managing, developing, and testing applications. Along with it, they provide you with all sorts of tools through the platform to run tests and development.
+PaaS is the third and last sub-category of SaaS which offers cloud computing, where the provider allows you to use their cloud services such as managing, developing, and testing applications. Along with it, they provide you with all sorts of tools through the platform to run tests and development.
 
 However, the provider’s main role is to ensure, security, maintenance, and backups of the infrastructure.
