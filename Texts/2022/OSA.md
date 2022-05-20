@@ -2,6 +2,10 @@
 
 ## Sources
 
+* [Open Source Initiative](https://opensource.org/)
+* [OpenSSF](https://openssf.org/)
+  * [Criticality Score](https://github.com/ossf/criticality_score)
+  * [Security Scorecards](https://github.com/ossf/scorecard)
 * [Upcounsel](https://web.archive.org/web/20210518082125/https://www.upcounsel.com/patents-trademarks-copyrights-and-trade-secrets)
 * [Opensource Guide](https://opensource.guide/how-to-contribute/)
 
@@ -84,4 +88,17 @@
     * How to get in touch with the team
 * __Code of Conduct__: sets ground rules for behavior for the project's participants
 
+## Criticality Parameters
 
+The parameters used to derive the criticality score for an open source project:
+
+* __Created Since__: older project has higher chance of being widely used or being dependent upon
+* __Updated Since__: unmaintained projects with no recent commits have higher chance of being less relied upon
+* __Contributor Count__: different contributors involvement indicates project's importance
+* __Organization Count__: indicates cross-organization dependency
+* __Commit Frequency__: higher code churn has slight indication of project's importance or susceptibility to vulnerabilities
+* __Recent Releases Count__: frequent releases indicates user dependency
+* __Closed Issues Count__: indicates high contributor involvement and focus on closing user issues
+* __Updated Issues Count__: indicates high contributor involvement
+* __Comment Frequency__: indicates high user activity and dependence
+* __Dependents Count__: indicates repository use, usually in version rolls
