@@ -1,0 +1,9 @@
+syntax = "proto3";
+package payments;
+
+import "request.proto";
+import "response.proto";
+
+service Bitcoin {
+    rpc SendPayment (BTCPaymentRequest) returns (BTCPaymentResponse);
+}

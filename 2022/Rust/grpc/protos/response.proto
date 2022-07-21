@@ -1,0 +1,7 @@
+syntax = "proto3";
+package payments;
+
+message BTCPaymentResponse {
+    bool successful = 1;
+    string message = 2;
+}
