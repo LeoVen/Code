@@ -55,10 +55,10 @@ scrape_configs:
 
 ## Characteristics
 
-| Pros | Cons |
-| ---- | ---- |
-| reliable | difficult to scale |
-| stand-alone and self-containing | limits monitoring |
-| works, even if other parts of the infrastructure break | |
-| no extensive set-up needed | |
-| less complex | |
+| Pros                                                   | Cons               |
+| ------------------------------------------------------ | ------------------ |
+| reliable                                               | difficult to scale |
+| stand-alone and self-containing                        | limits monitoring  |
+| works, even if other parts of the infrastructure break |                    |
+| no extensive set-up needed                             |                    |
+| less complex                                           |                    |

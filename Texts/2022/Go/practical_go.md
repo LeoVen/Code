@@ -7,7 +7,7 @@
 Examples ([Source](https://www.youtube.com/watch?v=2wZ1pCpJUIM))
 
 |                  |                 |              |
-|------------------|-----------------|--------------|
+| ---------------- | --------------- | ------------ |
 | Approachability  | Integrity       | Robustness   |
 | Availability     | Maintainability | Safety       |
 | Compatibility    | Measurability   | Security     |
@@ -170,10 +170,10 @@ Every comment should be __only one__ of these:
   * Even better is to use [go-cmp](https://github.com/google/go-cmp)
 * Prefer internal tests to external tests to avoid dot imports, but place `Example` test functions in an external test file
 
-| Type          | Code File | Package | Test File | Test Package |
-| ------------- | --------- | ------------ | ----- | ------------ |
-| Internal Test | `http.go` | `http` | `http_test.go` | `http` |
-| External Test | `http.go` | `http` | `http_test.go` | `http_test` |
+| Type          | Code File | Package | Test File      | Test Package |
+| ------------- | --------- | ------- | -------------- | ------------ |
+| Internal Test | `http.go` | `http`  | `http_test.go` | `http`       |
+| External Test | `http.go` | `http`  | `http_test.go` | `http_test`  |
 
 * Tests can assure that you can ship the master branch
 * Tests give you confidence to change someone else's code
