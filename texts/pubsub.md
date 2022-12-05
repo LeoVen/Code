@@ -22,4 +22,4 @@
 * One-to-many
 * Many-to-many
 
-<img src="../assets/pubsub.png">
+<img src="./assets/pubsub.png">
