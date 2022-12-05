@@ -28,10 +28,11 @@ A Control Plane runs across multiple computers and a cluster runs with multiple 
 * Node
   * kubelet
     * Agent that runs on each node. Makes sure that containers are running in a Pod
+    * Manages the pod lifecycle
   * kube-proxy
     * Network proxy that runs on each Node, implementing Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
   * Container Runtime
-    * Runs containers
+    * Runs container runtimes that must implement the Kubernetes Container Runtime Interface
 * Addons (cluster-level features)
   * DNS
   * WebUI (Dashboard)
