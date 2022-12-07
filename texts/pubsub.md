@@ -22,4 +22,4 @@
 * One-to-many
 * Many-to-many
 
-<img src="./assets/pubsub.png">
+![pubsub chart](../assets/pubsub.png)

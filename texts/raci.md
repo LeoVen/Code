@@ -2,7 +2,7 @@
 
 Example of a RACI chart
 
-![raci](./assets/RACI%20chart.jpg)
+![raci](../assets/RACI%20chart.jpg)
 
 RACI means *Responsible*, *Accountable*, *Consulted*, *Informed*.
 

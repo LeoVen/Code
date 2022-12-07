@@ -18,3 +18,7 @@ Namespaces allow to group resources. Deleting a namespace will delete all child 
 # set default namespace in config file
 kubectl config set-context --current --namespace=kube-system
 ```
+
+## Init Containers
+
+[Init containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) run in the pod before the actual app, of which there can be multiple queued ones.
