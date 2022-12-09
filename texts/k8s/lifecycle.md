@@ -1,6 +1,10 @@
 # Kubernetes POD Lifecycle
 
-[Source](https://www.youtube.com/watch?v=wlYESb124xM)
+Sources
+
+[Video](https://www.youtube.com/watch?v=wlYESb124xM)
+
+[Docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
 
 A pod is the atomic unit of scheduling and may contain one or more containers
 

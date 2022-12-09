@@ -27,10 +27,3 @@ Sources to studies
 9. Hadoop Systems
 10. Azure and Databricks
 11. ELT and SQL Tools
-
-## Analytics
-
-* **Descriptive Analytics** (what happened)
-* **Diagnostic Analytics** (why things happened)
-* **Predictive Analytics** (what is likely to occur in the future)
-* **Prescriptive Analytics** (which actions to perform)
