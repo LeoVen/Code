@@ -1,10 +1,31 @@
+- [Apache Hadoop](#apache-hadoop)
+- [Apache Kafka](#apache-kafka)
+- [Apache Spark](#apache-spark)
+  - [RDD API](#rdd-api)
+- [Apache Tinkerpop](#apache-tinkerpop)
+- [Azure Cosmos DB](#azure-cosmos-db)
+  - [Cosmos DB Explorer](#cosmos-db-explorer)
+- [Azure Databricks](#azure-databricks)
+  - [Databricks](#databricks)
+  - [Azure Databricks Workspace](#azure-databricks-workspace)
+  - [Azure Databricks SQL Analytics](#azure-databricks-sql-analytics)
 - [Azure Data Lake](#azure-data-lake)
 - [Azure Data Lake Analytics](#azure-data-lake-analytics)
   - [U-SQL](#u-sql)
+- [Azure Elastic Pools](#azure-elastic-pools)
+- [Azure HDInsights](#azure-hdinsights)
+  - [Apache Ambari](#apache-ambari)
+- [Azure SQL Family](#azure-sql-family)
+  - [SQL Server on Azure Virtual Machines](#sql-server-on-azure-virtual-machines)
+  - [SQL Managed Instance](#sql-managed-instance)
+  - [Azure SQL Database](#azure-sql-database)
 - [Azure Storage Accounts](#azure-storage-accounts)
   - [Azure Blob Storage](#azure-blob-storage)
   - [Azure Files](#azure-files)
+  - [Azure Table](#azure-table)
+  - [Account Storage Azure Table vs Cosmos DB Table API](#account-storage-azure-table-vs-cosmos-db-table-api)
 - [Azure Synapse Analytics](#azure-synapse-analytics)
+- [Citus (HyperScale)](#citus-hyperscale)
   - [Synapse SQL](#synapse-sql)
   - [Synapse ELT](#synapse-elt)
 - [Polybase](#polybase)
@@ -15,6 +36,107 @@
   - [Power BI Service](#power-bi-service)
   - [Reports vs Dashboards](#reports-vs-dashboards)
   - [Paginated Reports](#paginated-reports)
+
+# Apache Hadoop
+
+> Open-source framework for distributed processing of large data sets
+
+* Distribute large datasets across many services (HDFS)
+* Distribute computing queries across servers (MapReduce)
+
+Components:
+
+* Hadoop Common
+* Hadoop Distributed File System (HDFS)
+* Hadoop MapReduce
+* Hbase
+* YARN
+* HIVE
+* PIG
+
+# Apache Kafka
+
+> Open-source streaming platform to create high-performance pipelines, streaming analytics, data integration and mission-critical applications
+
+* __Producers__ publish messages in a key and value format to a __Topic__
+* __Consumers__ can listen for messages from a __Topic__ and consume them
+
+# Apache Spark
+
+> Open-source unified analytics engine for big data and machine learning
+
+* Much faster than Hadoop
+* Analytics ecosystem
+
+Components:
+
+* Spark Core
+* Spark SQL
+* Spark Streaming
+* GraphX
+* MLib
+
+## RDD API
+
+> Resilient Distributed Dataset is a DSL to execute various parallel operations on an Apache Spark Cluster
+
+# Apache Tinkerpop
+
+> Graphing computing framework for both graph databases (OLTP) and graph analytic systems (OLAP)
+
+* Vendor-agnostic distributed framework to traverse different graph systems
+  * Amazon Neptune
+  * CosmosDB
+  * Hadoop (Spark)
+  * Neo4j
+  * OrientDB
+  * Titan
+* Gremlin
+  * Single language used for all graph systems
+  * Azure CosmosDB supports this language by default
+
+# Azure Cosmos DB
+
+> A service for fully managed NoSQL databases, designed to scale and high performance
+
+Cosmos DB supports different kinds of NoSQL database engines:
+
+* Core SQL (document datastore)
+* Azure Cosmos DB API for MongoDB (document datastore)
+* Azure Table (key/value datastore)
+* Gremlin (graph datastore, based on TinkerPop)
+
+## Cosmos DB Explorer
+
+> Web Interface to explore Cosmos DB accounts
+
+# Azure Databricks
+
+> Partnership between Microsoft and Databricks to offer the Databricks Platform within the Azure Portal running on Azure compute services
+
+## Databricks
+
+> A software company specializing in providing fully managed Apache Spark clusters
+
+Main offerings:
+
+* Databricks platform
+  * Available in AWS, Azure, GCP
+* Databricks Community Edition
+
+## Azure Databricks Workspace
+
+> Integrations to Azure data-related services
+
+* Batching: Azure Data Factory
+* Streaming: Apache Kafka Event Hub
+* Storage: Azure Blob Storage or Azure Data Lake Storage
+
+## Azure Databricks SQL Analytics
+
+* Run SQL queries on Datalake
+* Create multiple visualization types
+* Build and share dashboards
 
 # Azure Data Lake
 
@@ -42,6 +164,68 @@ Instead of deploying, configuring and tuning hardware, you write queries (via U-
   * Azure SQL Data Warehouse
   * SQL Server instances running in Azure VMs
 
+# Azure Elastic Pools
+
+> A cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands
+
+* Single server
+* Share a set number of resources at a set price
+
+# Azure HDInsights
+
+> Managed service to run popular open-source analytics service
+
+Frameworks:
+
+* Apache Hadoop
+* Apache Spark
+* Apache Kafka
+* Apache Storm
+* Apache Hive
+* Apache HBase
+* LLAP
+* R
+
+Use cases:
+
+* ETL
+* Data Warehousing
+* Machine Learning
+* IoT
+
+## Apache Ambari
+
+> Open-source Hadoop management web-portal for provisioning, managing and monitoring Apache Hadoop clusters
+
+# Azure SQL Family
+
+## SQL Server on Azure Virtual Machines
+
+> IaaS
+
+* When you need OS-level control and access
+* Lift-and-shift workloads to the cloud
+* When having existing SQL licenses
+
+## SQL Managed Instance
+
+> PaaS
+
+* Modernize existing database
+* Highly available, disaster recovery and automated backups
+* Ideal for most migrations to the cloud
+
+## Azure SQL Database
+
+> PaaS
+
+* Fully managed SQL databases
+* Designed to be fault-tolerant
+* Built-in disaster recovery
+* Highly available
+* Designed to scale
+* __SQL Servers__: The underlying servers for Azure SQL Database
+
 # Azure Storage Accounts
 
 > An umbrella service for various forms of managed storage
@@ -64,6 +248,18 @@ Instead of deploying, configuring and tuning hardware, you write queries (via U-
 * Fully managed and resilient
 * Scripting and tooling to automate the management and creation, using Azure API or PowerShell
 
+## Azure Table
+
+> NoSQL Key/Value datastore
+
+* __Partition Key__ unique identifier for the partition within a given table
+* __Row Key__ unique identifier for an entity within a given partition
+* Query along the Partition and Row Key
+
+## Account Storage Azure Table vs Cosmos DB Table API
+
+![comparison](../../assets/ats_vs_acdbt.png)
+
 # Azure Synapse Analytics
 
 > A data warehouse and unified analytics platform
@@ -82,6 +278,15 @@ It is a __Data Lakehouse__ for bringing data integration tools and big data anal
 * Integration with Apache Spark
 
 ![Azure Synapse Analytics Pic](../../assets/azure_synaps_analytics.png)
+
+# Citus (HyperScale)
+
+> Postgres extension that transforms it into a distributed database
+
+* Database sharding (horizontal scaling)
+* Realtime queries (real-time analytics dashboards)
+* Multi-tenancy
+* Time series workloads
 
 ## Synapse SQL
 
