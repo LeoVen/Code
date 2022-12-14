@@ -22,6 +22,7 @@
 - [Azure Storage Accounts](#azure-storage-accounts)
   - [Azure Blob Storage](#azure-blob-storage)
   - [Azure Files](#azure-files)
+    - [Azure Storage Explorer](#azure-storage-explorer)
   - [Azure Table](#azure-table)
   - [Account Storage Azure Table vs Cosmos DB Table API](#account-storage-azure-table-vs-cosmos-db-table-api)
 - [Azure Synapse Analytics](#azure-synapse-analytics)
@@ -247,6 +248,10 @@ Use cases:
 * Uses SMB and NFS networking protocols
 * Fully managed and resilient
 * Scripting and tooling to automate the management and creation, using Azure API or PowerShell
+
+### Azure Storage Explorer
+
+A desktop app that allows you to connect and manage Azure Storage service accounts and resources across subscriptions and organizations
 
 ## Azure Table
 
