@@ -5,6 +5,7 @@
 - [Apache Tinkerpop](#apache-tinkerpop)
 - [Azure Cosmos DB](#azure-cosmos-db)
   - [Cosmos DB Explorer](#cosmos-db-explorer)
+- [Azure Data Factory](#azure-data-factory)
 - [Azure Databricks](#azure-databricks)
   - [Databricks](#databricks)
   - [Azure Databricks Workspace](#azure-databricks-workspace)
@@ -110,6 +111,12 @@ Cosmos DB supports different kinds of NoSQL database engines:
 ## Cosmos DB Explorer
 
 > Web Interface to explore Cosmos DB accounts
+
+# Azure Data Factory
+
+* Define and schedule data pipelines to transfer and transform data
+* Integrate pipelines with other Azure services
+* Ingest data from cloud, process and persist in another data store
 
 # Azure Databricks
 

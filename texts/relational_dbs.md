@@ -1,5 +1,6 @@
 - [Relational Databases](#relational-databases)
   - [SQL](#sql)
+    - [SQL Statement Types](#sql-statement-types)
   - [OLTP vs OLAP](#oltp-vs-olap)
   - [Read Replicas](#read-replicas)
 
@@ -11,6 +12,24 @@
 
 * ISO 9075
 * Insert, update, delete, select
+
+### SQL Statement Types
+
+* Data Definition Language (DDL)
+  * Database schema
+  * `CREATE`, `ALTER`, `DROP`, `TRUNCATE`, `COMMENT`, `RENAME`
+* Data Query Language (DQL)
+  * Performing queries on data
+  * `SELECT`, `SHOW`, `EXPLAIN PLAN`, `HELP`
+* Data Manipulation Language (DML)
+  * Manipulation of data
+  * `INSERT`, `UPDATE`, `DELETE`, `MERGE-UPSERT`, `CALL`, `LOCK TABLE`
+* Data Control Language (DCL)
+  * Rights, permissions and other controls
+  * `GRANT`, `REVOKE`
+* Transaction Control Language (TCL)
+  * Transactions within the database
+  * `COMMIT`, `ROLLBACK`, `SAVEPOINT`, `SET TRANSACTION`
 
 ## OLTP vs OLAP
 

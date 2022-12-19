@@ -18,10 +18,10 @@ Extensions include:
   * `CREATE`, `ALTER`, `DROP`, `TRUNCATE`, `COMMENT`, `RENAME`
 * Data Query Language (DQL)
   * Performing queries on data
-  * `INSERT`, `UPDATE`, `DELETE`, `MERGE-UPSERT`, `CALL`, `LOCK TABLE`
+  * `SELECT`, `SHOW`, `EXPLAIN PLAN`, `HELP`
 * Data Manipulation Language (DML)
   * Manipulation of data
-  * `SELECT`, `SHOW`, `EXPLAIN PLAN`, `HELP`
+  * `INSERT`, `UPDATE`, `DELETE`, `MERGE-UPSERT`, `CALL`, `LOCK TABLE`
 * Data Control Language (DCL)
   * Rights, permissions and other controls
   * `GRANT`, `REVOKE`
