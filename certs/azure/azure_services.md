@@ -22,6 +22,7 @@
   - [Azure SQL Database](#azure-sql-database)
 - [Azure Storage Accounts](#azure-storage-accounts)
   - [Azure Blob Storage](#azure-blob-storage)
+    - [Access tiers](#access-tiers)
   - [Azure Files](#azure-files)
     - [Azure Storage Explorer](#azure-storage-explorer)
   - [Azure Table](#azure-table)
@@ -245,6 +246,14 @@ Use cases:
 * Block blobs
 * Append blobs
 * Page blobs
+
+### Access tiers
+
+| Hot | Cool | Archive |
+| --- | ---- | ------- |
+| Frequently accessed | Infrequently accessed | Rarely accessed |
+| High storage cost | Lower storage cost | Lowest storage cost |
+| Low access cost | High access cost | High latency, up to hours |
 
 ## Azure Files
 

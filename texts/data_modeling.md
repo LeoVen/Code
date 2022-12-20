@@ -34,3 +34,29 @@ A logical data model builds on the conceptual model with specific attributes of 
 ### Physical data modeling
 
 A physical data model is your specific implementation of the logical data model, and it’s created by database administrators and developers. It is developed for a specific database tool and data storage technology, and with data connectors to serve the data throughout your business systems to users as needed. This is the “thing” the other models have been leading to—the actual implementation of your data estate.
+
+## Fact Tables and Dimension Tables
+
+* Fact Tables
+  * Record measurements or metrics for a specific event
+  * Generally consist of numeric values and foreign keys to dimensional data where descriptive information is kept
+  * Designed to a low level of uniform detail
+* Dimension Tables
+  * Usually have a relatively small number of records compared to fact tables, but each record may have a very large number of attributes to describe the fact data
+  * Can define a wide variety of characteristics, but some of the most common attributes defined by dimension tables include: time, geography, range, product, etc
+
+## Star Schema vs Snowflake Schema
+
+![star_vs_snowflake](../assets/star_schema_vs_snowflake_schema.png)
+
+* [__Star Schema__](https://en.wikipedia.org/wiki/Star_schema)
+  * De-normalized
+  * One fact table
+  * Multiple dimension tables
+  * Worse for analytics due to possible inconsistencies
+* [__Snowflake Schema__](https://en.wikipedia.org/wiki/Snowflake_schema)
+  * Normalized
+  * One fact table
+  * Multiple dimension tables
+  * Each dimension table can have other dimensions
+  * Better for analytics
