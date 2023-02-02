@@ -382,12 +382,7 @@ Anja
 Anjanette
 Anjela
 Ann
-Ann-Mari
-Ann-Marie
 Anna
-Anna-Diana
-Anna-Diane
-Anna-Maria
 Annabal
 Annabel
 Annabela
@@ -406,9 +401,6 @@ Annamari
 Annamaria
 Annamarie
 Anne
-Anne-Corinne
-Anne-Mar
-Anne-Marie
 Annecorinne
 Anneliese
 Annelise
@@ -648,7 +640,6 @@ Barb
 Barbabas
 Barbabra
 Barbara
-Barbara-Anne
 Barbaraanne
 Barbe
 Barbee
@@ -827,7 +818,6 @@ Betsey
 Betsy
 Betta
 Bette
-Bette-Ann
 Betteann
 Betteanne
 Betti
@@ -1134,7 +1124,6 @@ Carmita
 Carmon
 Caro
 Carol
-Carol-Jean
 Carola
 Carolan
 Carolann
@@ -1871,7 +1860,6 @@ Dian
 Diana
 Diandra
 Diane
-Diane-Marie
 Dianemarie
 Diann
 Dianna
@@ -3032,7 +3020,6 @@ Hannie
 Hannis
 Hanny
 Hans
-Hans-Peter
 Hansel
 Hanson
 Happy
@@ -3113,7 +3100,6 @@ Heinz
 Helaina
 Helaine
 Helen
-Helen-Elizabeth
 Helena
 Helene
 Helga
@@ -3214,7 +3200,6 @@ Holli
 Hollie
 Hollis
 Holly
-Holly-Anne
 Hollyanne
 Homer
 Honey
@@ -3487,13 +3472,6 @@ Jayne
 Jaynell
 Jazmin
 Jean
-Jean-Christophe
-Jean-Francois
-Jean-Lou
-Jean-Luc
-Jean-Marc
-Jean-Paul
-Jean-Pierre
 Jeana
 Jeane
 Jeanelle
@@ -3616,8 +3594,6 @@ Jimmie
 Jimmy
 Jinny
 Jo
-Jo-Ann
-Jo-Anne
 JoAnn
 JoAnne
 Joab
@@ -3668,8 +3644,6 @@ Johanna
 Johannah
 Johannes
 John
-John-David
-John-Patrick
 Johnathan
 Johnathon
 Johnette
@@ -3834,7 +3808,6 @@ Kane
 Kania
 Kanya
 Kara
-Kara-Lynn
 Karalee
 Karalynn
 Kare
@@ -4717,8 +4690,6 @@ Maribeth
 Marice
 Maridel
 Marie
-Marie-Ann
-Marie-Jeanne
 Marieann
 Mariejeanne
 Mariel
@@ -5608,7 +5579,6 @@ Pattie
 Patty
 Paul
 Paula
-Paula-Grace
 Paule
 Pauletta
 Paulette
@@ -6267,7 +6237,6 @@ Sansone
 Sapphira
 Sapphire
 Sara
-Sara-Ann
 Saraann
 Sarah
 Sarajane
@@ -6416,7 +6385,6 @@ Sheffie
 Sheffield
 Sheffy
 Sheila
-Sheila-Kathryn
 Sheilah
 Sheilakathryn
 Shel
@@ -6680,7 +6648,6 @@ Stu
 Stuart
 Sturgis
 Sue
-Sue-elle
 Suellen
 Sukey
 Suki
@@ -6846,7 +6813,6 @@ Terrel
 Terrell
 Terrence
 Terri
-Terri-Jo
 Terrianne
 Terrie
 Terrill
@@ -6893,7 +6859,6 @@ Theodoric
 Theodosia
 Theophyllus
 Theresa
-Theresa-Marie
 Therese
 Theresina
 Theresita

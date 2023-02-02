@@ -1,13 +1,14 @@
+use rand::{distributions::WeightedIndex, prelude::Distribution, thread_rng};
 use std::{collections::BTreeMap, fmt::Write};
 
 static MIN_LETTER_SIZE: usize = 2;
-static LETTERS: &[char; 27] = &[
+static LETTERS: &[char; 26] = &[
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z', '-',
+    't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
 #[derive(Default, Debug)]
-struct Stats {
+struct Count {
     pub total_appearances: usize,
     pub first_letter: usize,
     pub last_letter: usize,
@@ -25,26 +26,62 @@ fn new_empty_map() -> BTreeMap<char, usize> {
     map
 }
 
+fn print_temporary_output(map: &BTreeMap<char, Count>) {
+    let mut content = String::new();
+
+    _ = content.write_str("char,total,first,last\n");
+
+    for (letter, count) in map {
+        content += &format!(
+            "{},{},{},{}\n",
+            letter, count.total_appearances, count.first_letter, count.last_letter
+        );
+        println!("Letter {} has\n{:?}\n\n", letter, count);
+    }
+
+    _ = std::fs::write("./output.csv", content);
+}
+
+fn get_word_sizes(words: &Vec<&str>, longest: usize) -> BTreeMap<usize, usize> {
+    let mut result = BTreeMap::new();
+
+    for i in MIN_LETTER_SIZE..=longest {
+        result.insert(i, 0);
+    }
+
+    for word in words {
+        if let Some(value) = result.get_mut(&word.len()) {
+            *value += 1;
+        }
+    }
+
+    result
+}
+
 fn main() {
     let result = std::fs::read_to_string("./names.txt").expect("failed to read words.txt");
 
     let words = result.split('\n').collect::<Vec<&str>>();
+    let total_words = words.len();
 
-    let mut map: BTreeMap<char, Stats> = BTreeMap::new();
+    let mut map: BTreeMap<char, Count> = BTreeMap::new();
 
     for letter in LETTERS {
-        map.insert(*letter, Stats{
-            total_appearances: 0,
-            first_letter: 0,
-            last_letter: 0,
-            letters_before: new_empty_map(),
-            letters_after: new_empty_map(),
-        });
+        map.insert(
+            *letter,
+            Count {
+                total_appearances: 0,
+                first_letter: 0,
+                last_letter: 0,
+                letters_before: new_empty_map(),
+                letters_after: new_empty_map(),
+            },
+        );
     }
 
     let mut longest = String::new();
 
-    for word in words {
+    for word in words.iter() {
         if word.len() < MIN_LETTER_SIZE {
             continue;
         }
@@ -71,7 +108,7 @@ fn main() {
                     }
 
                     if let Some(stat_before) = map.get_mut(&letter_before) {
-                        if let Some (num) = stat_before.letters_after.get_mut(&char) {
+                        if let Some(num) = stat_before.letters_after.get_mut(&char) {
                             *num += 1;
                         }
                     }
@@ -86,17 +123,22 @@ fn main() {
         }
     }
 
-    let mut content = String::new();
+    print_temporary_output(&map);
 
-    _ = content.write_str("char,total,first,last\n");
+    let sizes = get_word_sizes(&words, longest.len());
 
-    for (letter, stats) in map {
-        content += &format!("{},{},{},{}\n", letter, stats.total_appearances, stats.first_letter, stats.last_letter);
-        println!("Letter {} has\n{:?}\n\n\n", letter, stats);
+    let weights = sizes
+        .into_iter()
+        .map(|(_num, total)| total as f64 / total_words as f64)
+        .collect::<Vec<f64>>();
+
+    let mut rng = thread_rng();
+
+    let dist = WeightedIndex::new(&weights).expect("Failed to create WeighedIndex");
+
+    for _ in 0..500 {
+        print!("{}", LETTERS[dist.sample(&mut rng)]);
     }
 
-    _ = std::fs::write("./output.csv", content);
-
-    println!("Longest word is {}", &longest);
-
+    println!();
 }
