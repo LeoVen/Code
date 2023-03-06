@@ -1,6 +1,6 @@
 - [SAA-C03](#saa-c03)
 - [Main Topics](#main-topics)
-- [AWS Well-Architected Framework](#aws-well-architected-framework)
+- [Whitepapers](#whitepapers)
 - [Services](#services)
   - [IAM](#iam)
   - [CloudWatch](#cloudwatch)
@@ -25,6 +25,13 @@
   - [S3 Select vs. Athena](#s3-select-vs-athena)
   - [EC2](#ec2)
     - [AMI](#ami)
+    - [Security Groups](#security-groups)
+    - [EBS](#ebs)
+    - [Migrate an EC2 instance from one AZ to another](#migrate-an-ec2-instance-from-one-az-to-another)
+    - [Instance Store](#instance-store)
+    - [EBS vs. Instance Store](#ebs-vs-instance-store)
+  - [ENI vs. ENA vs. EFA](#eni-vs-ena-vs-efa)
+    - [Spot Instances](#spot-instances)
 
 # SAA-C03
 
@@ -40,7 +47,9 @@ Links
 Sources to study
 
 * [freeCodeCamp](https://www.youtube.com/watch?v=Ia-UEYYR44s&ab_channel=freeCodeCamp.org)
-* [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html?did=wp_card&trk=wp_card)
+* [Whitepapers](https://aws.amazon.com/whitepapers/)
+* [FAQs](https://aws.amazon.com/faqs/)
+* [Cheat Sheets](https://tutorialsdojo.com/aws-cheat-sheets/)
 
 Exam Domains
 
@@ -72,14 +81,17 @@ Exam Domains
   * API Gateway
   * AWS Global Accelerator
 
-# AWS Well-Architected Framework
+# Whitepapers
 
-* Operational Excellence
-* Security
-* Reliability
-* Performance Efficiency
-* Cost Optimization
-* Sustainability
+* AWS Security Best Practices
+* AWS Well-Architected Framework
+* Architecting for the Cloud AWS Best Practices
+* Practicing Continuous Integration and Continuous Delivery on AWS Accelerating Software Delivery with DevOps
+* Microservices on AWS
+* Serverless Architectures with AWS Lambda
+* Optimizing Enterprise Economics with Serverless Architectures
+* Running Containerized Microservices on AWS
+* Blue/Green Deployments on AWS
 
 # Services
 
@@ -269,7 +281,10 @@ Prefix: `/folder1/subfolder1/`
 ## S3 Select vs. Athena
 
 * S3 Select is geared more towards structure data
+  * Select a subset data from a single object
 * Athena is a geared more towards big data
+  * Define tables that represent many S3 objects
+  * Aggregations, joins, filters
 * Macie - Helps identify PII (Personal Identifiable Information)
 
 ## EC2
@@ -295,8 +310,101 @@ Prefix: `/folder1/subfolder1/`
     * Purchased on-demand
 * [Types of instances](https://aws.amazon.com/ec2/instance-types/)
 
+![chart-ec2](../../assets/saa-c03/EC2.png)
+
 ### AMI
+
+[Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)
 
 > Amazon Machine Image
 
+Contains:
+
+* Information required to launch an instance.
+* One or more EBS or a template for the root volume
+* Launch permissions
+* A block device mapping
+
+Configuration
+
+* Region
+* OS
+* Architecture
+* Launch Permissions
+* Storage
+  * EBS
+  * Instance Store
+
+### Security Groups
+
+[Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html)
+
+* All traffic is blocked by default
+* All outbound traffic is allowed
+* Rule changes take effect immediately
+* Security Groups are stateful
+* EC2 Instances and Security Groups are a many-to-many relationship
+
+### EBS
+
+[Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html)
+
+> Elastic Block Store
+
+* [Root Device Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/RootDeviceStorage.html) contains the image used to boot an instance
+* Volumes are in the same AZ as Instances
+* Volumes can be deleted on termination of Instances or not
+* Volumes can be modified on the fly, even root ones
+
+[Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
+
+* General Purpose (SSD)
+* Provisioned IOPS (SSD)
+* Throughput Optimised HDD
+* Cold HDD
+* Magnetic
+
+![chart-ebs](../../assets/saa-c03/EBS.png)
+
+### Migrate an EC2 instance from one AZ to another
+
+1. Create a snapshot of the instance
+2. Create an AMI from the snapshot
+3. Instantiate an instance from the AMI
+
+To migrate to another Region, just copy the AMI from one Region to another and instantiate instances from there. To create a snapshot of a root device, it is best practice to stop the instance before taking the snapshot.
+
+### Instance Store
+
+> Ideal for temporary information that changes frequently
+
+* Ephemeral Storage
+* If the underlying instance fails, you loose all data
+* Instances with Instance Store can't be stopped
+* Rebooting doesn't lose your data
+
+### EBS vs. Instance Store
+
+* **EBS Volume** is network attached drive which results in slow performance but data is persistent meaning even if you reboot the instance data will be there
+* **Instance Store** provides temporary block-level storage for your instance. This storage is located on disks that are physically attached to the host computer
+
+## ENI vs. ENA vs. EFA
+
+* Elastic Network Interface
+  * No high-performance requirement
+  * Web servers, DB servers
+* Enhanced Networking Adapter
+  * High bandwidth and lower inter-instance latency
+* Elastic Fabric Adapter
+  * OS-bypass, lower latency and higher throughput
+  * HPC applications
+
+### Spot Instances
+
+* Instance will be provisioned so long as the Spot Price is below a set maximum Spot Price that you set
+* **EC2 Hibernate** - Saves the instance's RAM into the EBS root volume and persists any volume attached to the instance
+* **Spot Block** - prevent an instance from terminating even if the spot price goes above the maximum
+* Instances have a two minute notification before being interrupted or hibernated
+* **Spot Fleet** - attempts to launch a collection of Spot Instances and attempts to keep its original capacity if instances are interrupted
+* **Spot Instance Advisor** - helps to determine pools with the least chance of interruption
 
