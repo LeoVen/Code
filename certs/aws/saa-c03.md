@@ -1,37 +1,53 @@
 - [SAA-C03](#saa-c03)
 - [Main Topics](#main-topics)
 - [Whitepapers](#whitepapers)
-- [Services](#services)
-  - [IAM](#iam)
-  - [CloudWatch](#cloudwatch)
-  - [S3](#s3)
-    - [Data Consistency](#data-consistency)
-    - [Features](#features)
-    - [Storage Classes](#storage-classes)
-    - [Charges](#charges)
-    - [Encryption](#encryption)
-    - [Versioning](#versioning)
-    - [Lifecycle Rules](#lifecycle-rules)
-    - [Object Lock](#object-lock)
-    - [Performance](#performance)
-    - [Other Features](#other-features)
-    - [Sharing buckets across accounts](#sharing-buckets-across-accounts)
-    - [Cross region replication](#cross-region-replication)
-    - [Transfer Acceleration](#transfer-acceleration)
-  - [CloudFront](#cloudfront)
-    - [Signed URLs and Cookies](#signed-urls-and-cookies)
-  - [Snowball](#snowball)
-  - [Storage Gateway](#storage-gateway)
-  - [S3 Select vs. Athena](#s3-select-vs-athena)
-  - [EC2](#ec2)
-    - [AMI](#ami)
-    - [Security Groups](#security-groups)
-    - [EBS](#ebs)
-    - [Migrate an EC2 instance from one AZ to another](#migrate-an-ec2-instance-from-one-az-to-another)
-    - [Instance Store](#instance-store)
-    - [EBS vs. Instance Store](#ebs-vs-instance-store)
-  - [ENI vs. ENA vs. EFA](#eni-vs-ena-vs-efa)
-    - [Spot Instances](#spot-instances)
+- [IAM](#iam)
+- [CloudWatch](#cloudwatch)
+- [S3](#s3)
+  - [Data Consistency](#data-consistency)
+  - [Features](#features)
+  - [Storage Classes](#storage-classes)
+  - [Charges](#charges)
+  - [Encryption](#encryption)
+  - [Versioning](#versioning)
+  - [Lifecycle Rules](#lifecycle-rules)
+  - [Object Lock](#object-lock)
+  - [Performance](#performance)
+  - [Other Features](#other-features)
+  - [Sharing buckets across accounts](#sharing-buckets-across-accounts)
+  - [Cross region replication](#cross-region-replication)
+  - [Transfer Acceleration](#transfer-acceleration)
+- [CloudFront](#cloudfront)
+  - [Signed URLs and Cookies](#signed-urls-and-cookies)
+- [Snowball](#snowball)
+- [Storage Gateway](#storage-gateway)
+- [S3 Select vs. Athena](#s3-select-vs-athena)
+- [EC2](#ec2)
+  - [AMI](#ami)
+  - [Security Groups](#security-groups)
+  - [EBS](#ebs)
+    - [Snapshots](#snapshots)
+  - [Instance Store](#instance-store)
+  - [EBS vs. Instance Store](#ebs-vs-instance-store)
+  - [EFS](#efs)
+  - [Migrate an EC2 instance from one AZ to another](#migrate-an-ec2-instance-from-one-az-to-another)
+  - [EC2 Placement Groups](#ec2-placement-groups)
+  - [Spot Instances](#spot-instances)
+- [Amazon FSx](#amazon-fsx)
+- [ENI vs. ENA vs. EFA](#eni-vs-ena-vs-efa)
+- [CloudWatch](#cloudwatch-1)
+- [CloudTrail](#cloudtrail)
+- [HPC on AWS](#hpc-on-aws)
+- [WAF](#waf)
+- [RDS](#rds)
+  - [DynamoDB](#dynamodb)
+    - [DAX](#dax)
+  - [DMS](#dms)
+  - [RedShift](#redshift)
+  - [Aurora](#aurora)
+  - [ElastiCache](#elasticache)
+- [Caching Strategies](#caching-strategies)
+- [Amazon EMR](#amazon-emr)
 
 # SAA-C03
 
@@ -93,9 +109,7 @@ Exam Domains
 * Running Containerized Microservices on AWS
 * Blue/Green Deployments on AWS
 
-# Services
-
-## IAM
+# IAM
 
 > To access the console you use an account and password combination. To access AWS programmatically you use a Key and Secret Key combination
 
@@ -104,7 +118,7 @@ Exam Domains
 * Policies
 * Roles
 
-## CloudWatch
+# CloudWatch
 
 > Monitor AWS resources in real time
 
@@ -112,7 +126,7 @@ Exam Domains
 * Logs
 * Metrics
 
-## S3
+# S3
 
 > Simple Storage Services
 
@@ -128,14 +142,14 @@ Exam Domains
   * Names must be globally unique (across users, per region)
   * This generates a unique URL for manipulating the data
 
-### Data Consistency
+## Data Consistency
 
 * Read after Write: immediate read is possible after write
 * Eventual consistency for update (new version) and delete
 * 99.9% availability
 * 11x 9s for durability
 
-### Features
+## Features
 
 * Tiered Storage
 * Lifecycle Management
@@ -144,7 +158,7 @@ Exam Domains
 * MFA for delete
 * ACL and Bucket Policies
 
-### Storage Classes
+## Storage Classes
 
 [Link](https://aws.amazon.com/s3/storage-classes/)
 
@@ -157,7 +171,7 @@ Exam Domains
 * S3 Glacier Deep Archive
 * S3 Outposts
 
-### Charges
+## Charges
 
 * Storage
 * Requests
@@ -166,7 +180,7 @@ Exam Domains
 * Transfer Acceleration
 * Cross Region Replication
 
-### Encryption
+## Encryption
 
 * In Transit
   * SSL/TLS
@@ -174,17 +188,17 @@ Exam Domains
   * Server-side: SSE-S3, SSE-KMS, SSE-C
   * Client-side (you encrypt before storing)
 
-### Versioning
+## Versioning
 
 * Stores all versions of an object
 * Once enabled, can't be disabled, only suspended
 
-### Lifecycle Rules
+## Lifecycle Rules
 
 * Transition Actions (between storage classes)
 * Expiration Actions (deletes objects)
 
-### Object Lock
+## Object Lock
 
 > Write once, read many (WORM)
 
@@ -197,7 +211,7 @@ Can be applied to a bucket or objects
 * Retention period
 * Legal Holds
 
-### Performance
+## Performance
 
 > mybucketname/folder1/subfolder1/filename.ext
 
@@ -212,31 +226,31 @@ Prefix: `/folder1/subfolder1/`
   * Recommended for files above 100 MB
   * Required for files above 5 GB
 
-### Other Features
+## Other Features
 
 * S3 Select
   * Select data via SQL
 * Glacier Select
   * SQL queries against Glacier directly
 
-### Sharing buckets across accounts
+## Sharing buckets across accounts
 
 * Bucket Policies & IAM
 * ACLs & IAM
 * Cross-account IAM Roles
 
-### Cross region replication
+## Cross region replication
 
 * Destination bucket must enable versioning
 * Replication starts for new versions of objects the moment you turn it on
 * Permissions aren't replicated to the destination bucket
 * Delete markers or deleting individual versions are not replicated
 
-### Transfer Acceleration
+## Transfer Acceleration
 
 > Uses CloudFront Edge Network to accelerate uploads to S3
 
-## CloudFront
+# CloudFront
 
 > Is a CDN (Content Delivery Network)
 
@@ -254,7 +268,7 @@ Prefix: `/folder1/subfolder1/`
 * **TTL** (time-to-live)
   * Cache can be cleared
 
-###  Signed URLs and Cookies
+##  Signed URLs and Cookies
 
 * One Signed URL -> One File
 * One Signed Cookie -> Multiple Files
@@ -264,13 +278,13 @@ Prefix: `/folder1/subfolder1/`
   * EC2 - use CloudFront
   * S3 - Use S3 Signed URL
 
-## Snowball
+# Snowball
 
 > Migrate data at petabyte-scale
 
 * Import and export to S3
 
-## Storage Gateway
+# Storage Gateway
 
 > A service that connects on-premises software to cloud-based storage and provides seamless integration between the two environments
 
@@ -278,7 +292,7 @@ Prefix: `/folder1/subfolder1/`
 * Volume Gateway (iSCSI)
 * Tape Gateway (VTL)
 
-## S3 Select vs. Athena
+# S3 Select vs. Athena
 
 * S3 Select is geared more towards structure data
   * Select a subset data from a single object
@@ -287,7 +301,9 @@ Prefix: `/folder1/subfolder1/`
   * Aggregations, joins, filters
 * Macie - Helps identify PII (Personal Identifiable Information)
 
-## EC2
+# EC2
+
+> Hypervisor Nitro
 
 [Link](https://aws.amazon.com/ec2/)
 
@@ -312,7 +328,7 @@ Prefix: `/folder1/subfolder1/`
 
 ![chart-ec2](../../assets/saa-c03/EC2.png)
 
-### AMI
+## AMI
 
 [Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)
 
@@ -335,7 +351,9 @@ Configuration
   * EBS
   * Instance Store
 
-### Security Groups
+## Security Groups
+
+> Instance Level Firewall
 
 [Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html)
 
@@ -345,7 +363,7 @@ Configuration
 * Security Groups are stateful
 * EC2 Instances and Security Groups are a many-to-many relationship
 
-### EBS
+## EBS
 
 [Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html)
 
@@ -366,15 +384,15 @@ Configuration
 
 ![chart-ebs](../../assets/saa-c03/EBS.png)
 
-### Migrate an EC2 instance from one AZ to another
+### Snapshots
 
-1. Create a snapshot of the instance
-2. Create an AMI from the snapshot
-3. Instantiate an instance from the AMI
+> Snapshots of EBS are incremental backups that are stored in S3
 
-To migrate to another Region, just copy the AMI from one Region to another and instantiate instances from there. To create a snapshot of a root device, it is best practice to stop the instance before taking the snapshot.
+* Used to create AMIs
+* Copy and share snapshots
+* Create EBS volumes from a snapshot
 
-### Instance Store
+## Instance Store
 
 > Ideal for temporary information that changes frequently
 
@@ -383,12 +401,60 @@ To migrate to another Region, just copy the AMI from one Region to another and i
 * Instances with Instance Store can't be stopped
 * Rebooting doesn't lose your data
 
-### EBS vs. Instance Store
+## EBS vs. Instance Store
 
 * **EBS Volume** is network attached drive which results in slow performance but data is persistent meaning even if you reboot the instance data will be there
 * **Instance Store** provides temporary block-level storage for your instance. This storage is located on disks that are physically attached to the host computer
 
-## ENI vs. ENA vs. EFA
+## EFS
+
+> Amazon Elastic File System
+
+* Elastic storage capacity
+* Share files between EC2 instances
+* Thousands of concurrent NFS connections
+* Data is stored across multiple AZs within a region
+* Read after write consistency
+
+## Migrate an EC2 instance from one AZ to another
+
+1. Create a snapshot of the instance
+2. Create an AMI from the snapshot
+3. Instantiate an instance from the AMI
+
+To migrate to another Region, just copy the AMI from one Region to another and instantiate instances from there. To create a snapshot of a root device, it is best practice to stop the instance before taking the snapshot.
+
+## EC2 Placement Groups
+
+* **Cluster**
+  * Packs instances close together inside an Availability Zone
+  * Enables workloads to achieve the low-latency network performance necessary for tightly-coupled node-to-node communication (e.g. HPC)
+* **Partition**
+  * Spreads your instances across logical partitions such that groups of instances in one partition do not share the underlying hardware with groups of instances in different partitions
+  * Typically used by large distributed and replicated workloads (Hadoop, Cassandra and Kafka)
+* **Spread**
+  * Strictly places a small group of instances across distinct underlying hardware to reduce correlated failures
+  * Can be deployed across AZs
+
+## Spot Instances
+
+* Instance will be provisioned so long as the Spot Price is below a set maximum Spot Price that you set
+* **EC2 Hibernate** - Saves the instance's RAM into the EBS root volume and persists any volume attached to the instance
+* **Spot Block** - prevent an instance from terminating even if the spot price goes above the maximum
+* Instances have a two minute notification before being interrupted or hibernated
+* **Spot Fleet** - attempts to launch a collection of Spot Instances and attempts to keep its original capacity if instances are interrupted
+* **Spot Instance Advisor** - helps to determine pools with the least chance of interruption
+
+# Amazon FSx
+
+> Amazon FSx makes it easy and cost effective to launch, run, and scale feature-rich, high-performance file systems in the cloud
+
+* NetApp ONTAP
+* OpenZFS
+* Windows File Server
+* Lustre
+
+# ENI vs. ENA vs. EFA
 
 * Elastic Network Interface
   * No high-performance requirement
@@ -399,12 +465,127 @@ To migrate to another Region, just copy the AMI from one Region to another and i
   * OS-bypass, lower latency and higher throughput
   * HPC applications
 
-### Spot Instances
+# CloudWatch
 
-* Instance will be provisioned so long as the Spot Price is below a set maximum Spot Price that you set
-* **EC2 Hibernate** - Saves the instance's RAM into the EBS root volume and persists any volume attached to the instance
-* **Spot Block** - prevent an instance from terminating even if the spot price goes above the maximum
-* Instances have a two minute notification before being interrupted or hibernated
-* **Spot Fleet** - attempts to launch a collection of Spot Instances and attempts to keep its original capacity if instances are interrupted
-* **Spot Instance Advisor** - helps to determine pools with the least chance of interruption
+> Monitoring service of most AWS applications
 
+* Create dashboards
+* Create alarms
+* Create events
+* Logs
+
+# CloudTrail
+
+> Records AWS Management Console actions and API calls
+
+# HPC on AWS
+
+* EC2
+  * Instances optimized for CPU and GPU
+  * EC2 Fleets
+  * Placement Groups
+* Network Networking
+  * ENI
+  * ENA
+  * EFA
+
+# WAF
+
+> Web Application Firewall
+
+* Application-level Firewall (layer 7 of OSI model)
+* Monitor HTTP and HTTPS requests forwarded to CloudFront
+* Load Balancer
+* API Gateway
+
+# RDS
+
+> Relational Database Service
+
+* Runs on Virtual Machines
+* Types
+  * **Multi-AZ** (Disaster-Recovery)
+  * **Read Replicas** (Performance)
+* Available relational Databases
+  * SQL Server
+  * Oracle
+  * MySQL
+  * PostreSQL
+  * Aurora
+  * MariaDB
+* DynamoDB (NoSQL)
+* Redshift OLAP
+* ElastiCache
+  * Memcached
+  * Redis
+
+## DynamoDB
+
+* Spread across 3 geographically distinct data centers
+* Eventually Consistent or Strongly Consistent Reads
+* Security
+  * KMS for encryption at rest
+  * Site-to-site VPN
+  * Direct Connect (DX)
+  * IAM Policies or fine-grained access
+
+### DAX
+
+> DynamoDB Accelerator
+
+* In-memory cache
+* Compatible with DynamoDB calls
+* Global tables
+
+## DMS
+
+> Database Migration Service
+
+* Migrate databases into AWS Cloud
+  * Source and target can be in the cloud or on-premise
+* Homogeneous and Heterogeneous migrations and data replication
+* AWS **Schema Conversion Tool** (SCT): migrate to a different DB Engine
+
+## RedShift
+
+> BI and Data Warehouse
+
+* Single vs Multi-node
+* Leader Node and Compute Node
+* Advanced Compression (compresses by column)
+* MPP (Massive Parallel Processing)
+* Backups: 1 to 35 retention period
+* Replicate snapshots to S3 in another region
+
+## Aurora
+
+> Amazon's MySQL and PostgreSQL compatible database engine
+
+* Scalability
+  * From 10 GB to 64 TB
+  * Up to 32 vCPUs and 244 GB of memory
+  * A minimum of 3 AZs and 2 copies for each AZ
+* Backups do not impact primary DB
+* **Aurora Serverless**
+  * Infrequent, intermittent or unpredictable workloads
+
+## ElastiCache
+
+* Redis
+* Memcached
+* Increase database and web application performance
+
+# Caching Strategies
+
+* CloudFront
+* API Gateway
+* ElastiCache
+* DAX
+
+# Amazon EMR
+
+> Amazon Elastic Map-Reduce
+
+* Managed Hadoop Framework
+  * Apache Spark, Hive, HBase, Flink, Hudi, Presto
+* Archive log files to S3 because logs are stored in the master node, and if it fails, all log is lost
