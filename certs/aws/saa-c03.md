@@ -2,6 +2,10 @@
 - [Main Topics](#main-topics)
 - [Whitepapers](#whitepapers)
 - [IAM](#iam)
+  - [ARN](#arn)
+  - [Users](#users)
+  - [Policies](#policies)
+  - [Roles](#roles)
 - [CloudWatch](#cloudwatch)
 - [S3](#s3)
   - [Data Consistency](#data-consistency)
@@ -48,6 +52,12 @@
   - [ElastiCache](#elasticache)
 - [Caching Strategies](#caching-strategies)
 - [Amazon EMR](#amazon-emr)
+- [AWS Directory Service](#aws-directory-service)
+- [Amazon Resource Access Manager](#amazon-resource-access-manager)
+- [AWS IAM Identity Center](#aws-iam-identity-center)
+- [Route 53](#route-53)
+  - [Policies](#policies-1)
+  - [Common DNS Record Types](#common-dns-record-types)
 
 # SAA-C03
 
@@ -117,6 +127,51 @@ Exam Domains
 * Groups
 * Policies
 * Roles
+* IAM Entity: a User or Role
+
+[Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
+
+## ARN
+
+[Link](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+
+> Amazon Resource Name
+
+* Uniquely identifies a resource in AWS
+  * `arn:partition:service:region:account-id:resource-id`
+  * `arn:partition:service:region:account-id:resource-type/resource-id`
+  * `arn:partition:service:region:account-id:resource-type:resource-id`
+  * Examples:
+  * `arn:aws:iam::123456789012:user/mark`
+  * `arn:aws:s3:::my_bucket/image.png`
+  * `arn:aws:ec2:us-east-1:123456789012:instance/*`
+
+## Users
+
+[Link](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
+
+> An identity within AWS that has specific permissions for a single person or application
+
+* Best practices recommends relying more on temporary credentials instead of creating IAM users with long-term credentials
+* Console password
+* Access Keys
+
+## Policies
+
+[Link](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
+
+* Identity-based policies
+  * Managed
+  * Inline
+* Resource-based policies
+* Permission boundaries
+* Organizations SCPs
+* Access Control Lists (ACLs)
+* Session Policies
+
+## Roles
+
+* An aggregation of applied Policies
 
 # CloudWatch
 
@@ -589,3 +644,70 @@ To migrate to another Region, just copy the AMI from one Region to another and i
 * Managed Hadoop Framework
   * Apache Spark, Hive, HBase, Flink, Hudi, Presto
 * Archive log files to S3 because logs are stored in the master node, and if it fails, all log is lost
+
+# AWS Directory Service
+
+> Fully managed Microsoft Active Directory service
+
+* Use existing Microsoft AD-aware or LDAP applications in the cloud
+* Extend existing AD to on-premises
+* Multi-AZ deployment, high-availability
+
+Other related services
+
+* Simple AD *
+  * Standalone managed directory
+  * Basic AD features
+* AD Connector *
+  * Allow on-premises users to log in to AWS using AD
+* Cloud Directory *
+  * Directory-base store for developers
+* Amazon Cognito User Pools
+  * Managed user directory for SaaS applications
+
+\* AD Compatible
+
+# Amazon Resource Access Manager
+
+> Discover, group and share AWS resources
+
+[Link](https://docs.aws.amazon.com/ARG/index.html)
+
+# AWS IAM Identity Center
+
+> SSO for AWS
+
+[Link](https://docs.aws.amazon.com/singlesignon/index.html)
+
+* Successor to AWS Single Sign-on
+* Centrally manage access to AWS accounts
+* SAML
+
+# Route 53
+
+> Highly available and scalable DNS service
+
+[Link](https://docs.aws.amazon.com/route53/)
+
+* Manage network traffic globally
+* Set up private DNS
+* Check resources health
+
+## Policies
+
+* Simple Routing
+* Weighed Routing
+* Latency-based Routing
+* Failover Routing
+* Geolocation Routing
+* Geoproximity Routing (Traffic Flow Only)
+* Multivalue Answer Routing
+
+## Common DNS Record Types
+
+* `A`
+* `CNAME`
+* `MX`
+* `NS`
+* `PTR`
+* `SOA`
