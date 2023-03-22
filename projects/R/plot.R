@@ -36,6 +36,6 @@ starwars %>%
     ggplot(aes(height, mass, color = sex)) +
     geom_point(size = 5, alpha = 0.5) +
     geom_smooth() +
-    facet_wrap(~sex) +
+    facet_wrap(~sex, ncol = 1, nrow = 2) +
     theme_linedraw() +
     labs(title = "Height and mass by sex")
