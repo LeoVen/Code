@@ -5,7 +5,8 @@ resource "aws_vpc" "vpc_main" {
 
   tags = {
     Name    = "vpc_main"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -18,7 +19,8 @@ resource "aws_subnet" "public01" {
 
   tags = {
     Name    = "public01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -31,7 +33,8 @@ resource "aws_subnet" "public02" {
 
   tags = {
     Name    = "public02"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -42,7 +45,8 @@ resource "aws_subnet" "private01" {
 
   tags = {
     Name    = "private01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -53,7 +57,8 @@ resource "aws_subnet" "private02" {
 
   tags = {
     Name    = "private02"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -67,7 +72,8 @@ resource "aws_default_route_table" "rt_default" {
 
   tags = {
     Name    = "rt_default"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -81,7 +87,8 @@ resource "aws_route_table" "rt_private" {
 
   tags = {
     Name    = "rt_private"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -100,7 +107,8 @@ resource "aws_internet_gateway" "igw_main" {
 
   tags = {
     Name    = "igw_main"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -109,7 +117,8 @@ resource "aws_eip" "eip_public01" {
 
   tags = {
     Name    = "eip_public01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 
   depends_on = [
@@ -125,7 +134,8 @@ resource "aws_nat_gateway" "nat_public01" {
 
   tags = {
     Name    = "nat_public01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 
   depends_on = [

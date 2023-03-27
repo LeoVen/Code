@@ -11,7 +11,8 @@ resource "aws_key_pair" "key_pair" {
 
   tags = {
     Name    = "MainKey"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 

@@ -20,7 +20,8 @@ resource "aws_instance" "instance_public01" {
 
   tags = {
     Name    = "Public01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -36,7 +37,8 @@ resource "aws_instance" "instance_public02" {
 
   tags = {
     Name    = "Public02"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -52,7 +54,8 @@ resource "aws_instance" "instance_private01" {
 
   tags = {
     Name    = "Private01"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -68,6 +71,7 @@ resource "aws_instance" "instance_private02" {
 
   tags = {
     Name    = "Private02"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }

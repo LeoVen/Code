@@ -33,7 +33,8 @@ resource "aws_security_group" "sg_web" {
 
   tags = {
     Name    = "sg_web"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
 
@@ -57,6 +58,7 @@ resource "aws_security_group" "sg_all" {
 
   tags = {
     Name    = "sg_all"
-    Project = "Networking"
+    Project = local.Project
+    Version = local.Version
   }
 }
