@@ -58,6 +58,18 @@
 - [Route 53](#route-53)
   - [Policies](#policies-1)
   - [Common DNS Record Types](#common-dns-record-types)
+- [VPC](#vpc)
+  - [VPC Peering](#vpc-peering)
+  - [AWS Private Link](#aws-private-link)
+  - [Transit Gateway](#transit-gateway)
+  - [VPC Endpoints](#vpc-endpoints)
+  - [Global Accelerator](#global-accelerator)
+    - [Components](#components)
+  - [NAT Gateways](#nat-gateways)
+  - [NACLs](#nacls)
+  - [Flow Log](#flow-log)
+  - [Bastion Host](#bastion-host)
+  - [Direct Connect](#direct-connect)
 
 # SAA-C03
 
@@ -711,3 +723,105 @@ Other related services
 * `NS`
 * `PTR`
 * `SOA`
+
+# VPC
+
+> Virtual Private Cloud
+
+[Link](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
+[Reserved IP by AWS](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)
+
+* Logically isolated
+* Subnet = 1 AZ
+* IP address ranges
+
+**Main components used**
+
+* Route tables
+* Internet Gateway
+* Security Groups
+* VPN
+* ACLs
+
+## VPC Peering
+
+* No transitive peering
+* CIDR blocks must not overlap
+
+## AWS Private Link
+
+* Open applications to other VPCs
+* Unlike VPC Peering, allows you to more easily connect multiple VPCs
+
+## Transit Gateway
+
+* Connects VPCs and on-premises networks through a central hub
+* Simplifies the network, instead of complex VPC peering
+* Across AWS accounts
+* Highly scalable cloud router
+
+## VPC Endpoints
+
+* Privately connect to a VPC
+* Doesn't require an Internet Gateway
+* Two types
+  * Interface Endpoints
+  * Gateway Endpoints (S3 and Dynamo DB)
+
+## Global Accelerator
+
+* Traffic enters the AWS network via the closest Edge Location
+* Directs traffic to the optimal endpoint
+* Use cases
+  * Global traffic manager
+  * API acceleration
+  * Global static IP
+  * Low-latency gaming and media
+
+### Components
+
+* Static IP address
+* Accelerator
+* DNS name
+* Network Zone
+* Listener
+* Endpoint Group
+* Endpoint
+
+## NAT Gateways
+
+* Redundant inside an AZ
+* One per AZ
+* Scales automatically
+
+## NACLs
+
+> Network Access Control Lists
+
+[Link](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
+
+* Stateless
+* Every VPC has one by default, allowing all inbound and outbound traffic
+* [Ephemeral ports](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-ephemeral-ports)
+
+## Flow Log
+
+[Link](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
+
+* Captures IP traffic for a specific network interface
+  * VPC, Subnet, ENI, Transit Gateway
+* Logs saved to CloudWatch Log or an S3 bucket
+
+## Bastion Host
+
+[Link](https://en.wikipedia.org/wiki/Bastion_host)
+
+## Direct Connect
+
+> DX
+
+* Create a dedicated connection from a data center to AWS
+* Dedicated Connection
+* Hosted Connection
+* Not encrypted
+
