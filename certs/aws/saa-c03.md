@@ -70,6 +70,10 @@
   - [Flow Log](#flow-log)
   - [Bastion Host](#bastion-host)
   - [Direct Connect](#direct-connect)
+- [ELBs](#elbs)
+  - [Health Checks](#health-checks)
+  - [Application Load Balancer](#application-load-balancer)
+  - [Other Concepts](#other-concepts)
 
 # SAA-C03
 
@@ -824,4 +828,43 @@ Other related services
 * Dedicated Connection
 * Hosted Connection
 * Not encrypted
+
+# ELBs
+
+> Elastic Load Balances
+
+[Link](https://docs.aws.amazon.com/elasticloadbalancing/index.html)
+
+* Automatically distribute application traffic across multiple targets
+* **Application Load Balancer**
+  * Layer 7
+  * Best suited for HTTP or HTTPs
+* **Network Load Balancer**
+  * Layer 4
+  * Low latency
+* **Classic Load Balancer**
+  * Classic/Test/Dev Load Balancer
+  * `X-Forwarded-For` header contains the original IP
+
+## Health Checks
+
+* Periodically sends requests to load balancer's registered instances to test their status
+* Load balancer only routes to healthy instances
+
+## Application Load Balancer
+
+* High level load balancer
+* Can route based on paths
+* Supports only HTTP and HTTPs
+
+![ELB Diagram](../../assets/saa-c03/ELB.png)
+
+## Other Concepts
+
+* **Sticky Sessions**
+  * Classic Load Balancers route each request independently to a registered EC2 instance with the smallest load
+  * Sticky Sessions allows you to bind a user's session to a specific EC2 instance
+  * May return errors to the user if the EC2 instance has problems or terminated
+* **De-registration Delay**
+  * Allows the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy
 
