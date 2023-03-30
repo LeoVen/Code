@@ -40,6 +40,7 @@
 - [Amazon FSx](#amazon-fsx)
 - [ENI vs. ENA vs. EFA](#eni-vs-ena-vs-efa)
 - [CloudWatch](#cloudwatch-1)
+  - [CloudWatch Logs](#cloudwatch-logs)
 - [CloudTrail](#cloudtrail)
 - [HPC on AWS](#hpc-on-aws)
 - [WAF](#waf)
@@ -74,6 +75,12 @@
   - [Health Checks](#health-checks)
   - [Application Load Balancer](#application-load-balancer)
   - [Other Concepts](#other-concepts)
+- [High Availability](#high-availability)
+  - [The 3 W of Scaling](#the-3-w-of-scaling)
+  - [Launch Templates](#launch-templates)
+  - [AWS Auto Scaling](#aws-auto-scaling)
+    - [Types of Scaling](#types-of-scaling)
+  - [Relational Database Scaling](#relational-database-scaling)
 
 # SAA-C03
 
@@ -544,6 +551,19 @@ To migrate to another Region, just copy the AMI from one Region to another and i
 * Create alarms
 * Create events
 * Logs
+  * Monitor, store and access log files
+  * Query logs and analyze
+
+## CloudWatch Logs
+
+* Log Event
+  * A single record, containing a timestamp and data
+* Log Stream
+  * A collection of Log Events from a single source
+* Log Group
+  * A collection of Log Streams
+
+**CloudWatch Logs Insights** can use SQL to query Logs
 
 # CloudTrail
 
@@ -599,6 +619,7 @@ To migrate to another Region, just copy the AMI from one Region to another and i
   * Site-to-site VPN
   * Direct Connect (DX)
   * IAM Policies or fine-grained access
+* Provisioned vs. On-demand capacity
 
 ### DAX
 
@@ -867,4 +888,55 @@ Other related services
   * May return errors to the user if the EC2 instance has problems or terminated
 * **De-registration Delay**
   * Allows the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy
+
+
+# High Availability
+
+* Vertical Scaling
+  * Increase CPU, Memory, Storage, etc
+  * Limited scaling
+  * Has downtime
+* Horizontal Scaling
+  * Increase Instances or working units
+  * Good for redundancy
+  * No downtime
+
+## The 3 W of Scaling
+
+* **What** to scale
+* **Where** to scale
+* **When** to scale
+
+## Launch Templates
+
+> Streamline, simplify and standardize instance launches
+
+* Versioning
+* Granularity
+* AWS Recommended
+
+## AWS Auto Scaling
+
+![AutoScalingSteps](../../assets/saa-c03/AutoScaling.png)
+
+* Instance Warm-Up and Cooldown
+* Bake AMIs to reduce warm-up time
+* Provision ahead of workload
+* Have multiple AZs
+
+### Types of Scaling
+
+* Reactive Scaling
+  * Measure the workload and scale accordingly
+* Scheduled Scaling
+  * Predictable workload
+* Predictive Scaling
+  * Looks at historical data to predict the next 48 hours
+
+## Relational Database Scaling
+
+* Vertical Scaling
+* Scaling Storage
+* Read Replicas
+* Aurora Serverless
 
