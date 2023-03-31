@@ -81,6 +81,13 @@
   - [AWS Auto Scaling](#aws-auto-scaling)
     - [Types of Scaling](#types-of-scaling)
   - [Relational Database Scaling](#relational-database-scaling)
+- [SQS](#sqs)
+- [SNS](#sns)
+- [API Gateway](#api-gateway)
+- [AWS Batch](#aws-batch)
+- [Amazon MQ](#amazon-mq)
+- [AWS Step Functions](#aws-step-functions)
+- [AppFlow](#appflow)
 
 # SAA-C03
 
@@ -99,6 +106,7 @@ Sources to study
 * [Whitepapers](https://aws.amazon.com/whitepapers/)
 * [FAQs](https://aws.amazon.com/faqs/)
 * [Cheat Sheets](https://tutorialsdojo.com/aws-cheat-sheets/)
+* [AWS Cloud Architecture for Web Hosting](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
 
 Exam Domains
 
@@ -939,4 +947,98 @@ Other related services
 * Scaling Storage
 * Read Replicas
 * Aurora Serverless
+
+# SQS
+
+> Simple Queue Service
+
+* **Poll-based**
+* Delivery Delay
+* Message Size (up to 256 KB of text in any format)
+* Encryption
+* Message Retention (1 min to 14 days)
+* Long vs. Short polling
+* Queue depth (can trigger auto scaling)
+* Visibility timeout
+* **Dead-Letter Queue**
+  * Move messages to another queue after X receive attempts
+  * This other queue is just another SQS
+* **SQS FIFO**
+  * Guarantees sequential ordering and no duplicates, unlike a standard SQS
+  * Message Group
+  * Message Deduplication ID
+  * Lower performance
+
+# SNS
+
+> Simple Notification Service
+
+* **Push-based**
+* Like Pub/Sub
+* Subscribers
+* No retry (except HTTP/s)
+* Messages can be sent to an SQS Dead-Letter Queue
+
+# API Gateway
+
+> Create, maintain, monitor, secure an API
+
+* Protect API with WAF
+* Rate limiting
+* Easy setup
+* Native integration with lambda
+
+# AWS Batch
+
+> Run batch workloads on EC2, ECS or Fargate
+
+* Automatically provision and scale resources
+* **Components**
+  * Jobs
+  * Job Definitions
+  * Job Queues
+  * Compute Environment
+* AWS Batch doesn't have limited time or disk space
+* Uses Docker
+* Managed vs. Unmanaged Compute Environment
+
+# Amazon MQ
+
+> Managed Message Broker Service
+
+* Supports Apache ActiveMQ or RabbitMQ engines
+* Easy to migrate to the cloud, otherwise use SNS and SQS
+
+# AWS Step Functions
+
+> Serverless Orchestration Service
+
+* Visual Workflow
+* **State Machine**
+  * A workflow with event-driven steps
+* States
+  * Task: A single unit of work
+  * Pass: Passes its input to its output
+  * Choice: branching logic
+  * Wait: Creates a specific time delay
+  * Succeed: Stops execution successfully
+  * Fail: Stops execution and mark it as a failure
+  * Parallel: Runs parallel branches of execution
+  * Map: Runs a set of steps based on elements of an input array
+* **Standard Workflows**
+  * Exactly one execution
+  * Long-running workflows
+* **Express Workflows**
+  * At least one execution
+  * High event rate workloads
+
+# AppFlow
+
+> Integrate data between SaaS and AWS Services
+
+* Pull data from third-party
+* Flow: transfer data between sources and destinations
+* Data Mapping: how source data is stored in a destination
+* Filters
+* Triggers
 
