@@ -88,6 +88,16 @@
 - [Amazon MQ](#amazon-mq)
 - [AWS Step Functions](#aws-step-functions)
 - [AppFlow](#appflow)
+- [Big Data](#big-data)
+  - [Redshift](#redshift-1)
+  - [EMR](#emr)
+  - [Kinesis](#kinesis)
+  - [Athena vs. Glue](#athena-vs-glue)
+  - [QuickSight](#quicksight)
+  - [AWS Data Pipeline](#aws-data-pipeline)
+    - [Components](#components-1)
+  - [Amazon MSK](#amazon-msk)
+  - [Amazon OpenSearch](#amazon-opensearch)
 
 # SAA-C03
 
@@ -1042,3 +1052,91 @@ Other related services
 * Filters
 * Triggers
 
+# Big Data
+
+[About Big Data](../../texts/big_data.md)
+
+## Redshift
+
+> Fully managed data warehouse
+
+* Up to 16 Petabytes
+* Relational database
+* Great for BI
+* Only one AZ
+
+## EMR
+
+> Elastic Map Reduce
+
+* [ETL](../../texts/etl_vs_elt.md)
+* Process vast amount of data using open-source tools:
+  * Spark, Hive, HBase, Flink, Hudi, Presto
+* Clusters can be deployed in EC2 instances, EKS or Outpost
+
+## Kinesis
+
+> Real-time streaming data
+
+* **Data Streams**
+  * Real-time data streaming
+  * Responsible for creating the consumer and scaling the stream
+  * Shards
+* **Data Firehose**
+  * Near real time (within 60 seconds)
+  * Plug and play, handles scaling and the consumer
+* **Kinesis Data Analytics**
+  * Analyze and transform data using standard SQL
+* SQS vs. Kineses
+  * SQS: simpler, no real time
+  * Kineses: BigData, near real time (Data Firehose) and real time (Data Streams)
+
+## Athena vs. Glue
+
+* **Athena**
+  * Query data from S3 directly with SQL
+  * Serverless
+* **Glue**
+  * Serverless data integration (ETL)
+  * Replaces EMR
+  * Structure Data (schema)
+* Both together: use Glue to create a schema on top of S3 and use Athena to query it
+
+## QuickSight
+
+> BI data visualization
+
+## AWS Data Pipeline
+
+> ETL Service
+
+* Define data-driven workflows
+* Parameters for data transformations
+* Highly available and fault tolerant
+
+### Components
+
+* Pipeline Definitions
+* Managed Compute
+* Task Runners
+* Data Nodes
+* Activities
+
+## Amazon MSK
+
+> Fully managed service for Apache Kafka
+
+* Broker Nodes
+* ZooKeeper Nodes
+* Producers, Consumers, Topics
+* Flexible Cluster Operations
+* MSK Serverless
+
+## Amazon OpenSearch
+
+> Managed service for search and analytics engines
+
+* Scalable cluster
+* Multi-AZ capable
+* Allows BI apps
+* Integrate with S3, Kinesis, CloudWatch, CloudTrail
