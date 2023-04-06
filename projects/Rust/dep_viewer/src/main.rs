@@ -1,11 +1,12 @@
 mod custom_error;
 use custom_error::*;
 
-mod process;
-use process::*;
-
+mod display;
 mod fetch;
+mod process;
+use display::*;
 use fetch::*;
+use process::*;
 
 use clap::Parser;
 
@@ -25,19 +26,13 @@ struct Args {
 }
 
 fn main() -> Result<(), AkkadiaError> {
-    let args = Args::parse();
+    env_logger::init();
 
-    dbg!(&args);
+    let args = Args::parse();
 
     let result = process(args.path)?;
     let result = fetch(result)?;
-
-    for dep in result {
-        println!(
-            "[{}] {} {}",
-            dep.set.dep_type, dep.set.name, dep.set.version
-        );
-    }
+    display_table(result);
 
     Ok(())
 }

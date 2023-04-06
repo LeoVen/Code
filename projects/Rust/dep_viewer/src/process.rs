@@ -1,5 +1,7 @@
 use std::{fs, path::PathBuf};
 
+use log::info;
+
 use crate::custom_error::AkkadiaError;
 
 #[derive(Debug)]
@@ -19,9 +21,14 @@ pub fn process(path: String) -> Result<Vec<ResultSet>, AkkadiaError> {
         path
     };
 
+    info!(
+        "solved path to file {}",
+        file_path.to_str().unwrap_or("<non utf8 path>")
+    );
+
     let root = fs::read_to_string(file_path)?.parse::<toml::Value>()?;
 
-    Ok(get_deps(root)?)
+    get_deps(root)
 }
 
 fn solve_file_in_dir(path: PathBuf) -> Result<PathBuf, AkkadiaError> {
@@ -37,7 +44,7 @@ fn solve_file_in_dir(path: PathBuf) -> Result<PathBuf, AkkadiaError> {
         let file_name = entry
             .file_name()
             .into_string()
-            .map_err(|_| "File name is non utf8")?;
+            .map_err(|_| "file name is non utf8")?;
 
         if file_name == "Cargo.toml" {
             return Ok(entry.path());
@@ -45,7 +52,7 @@ fn solve_file_in_dir(path: PathBuf) -> Result<PathBuf, AkkadiaError> {
     }
 
     let msg = format!(
-        "Could not find toml file in folder {}",
+        "could not find toml file in folder {}",
         &path.to_str().unwrap_or("<non utf8 path>")
     );
 
@@ -57,7 +64,7 @@ fn get_deps(root: toml::Value) -> Result<Vec<ResultSet>, AkkadiaError> {
 
     if !root.is_table() {
         return Err(
-            format!("Toml root is not table (it is {})", root.type_str())
+            format!("toml root is not table (it is {})", root.type_str())
                 .as_str()
                 .into(),
         );
@@ -70,7 +77,7 @@ fn get_deps(root: toml::Value) -> Result<Vec<ResultSet>, AkkadiaError> {
         if let Some(dep_table) = table.get(deps) {
             if !dep_table.is_table() {
                 return Err(format!(
-                    "Dependency {} is not in table format (it is {})",
+                    "dependency {} is not in table format (it is {})",
                     deps,
                     dep_table.type_str()
                 )
@@ -99,7 +106,7 @@ fn get_deps(root: toml::Value) -> Result<Vec<ResultSet>, AkkadiaError> {
                                 })
                             } else {
                                 return Err(format!(
-                                    "Unexpected version format for {} as type {}",
+                                    "unexpected version format for {} as type {}",
                                     &k,
                                     version.type_str()
                                 )
@@ -107,14 +114,14 @@ fn get_deps(root: toml::Value) -> Result<Vec<ResultSet>, AkkadiaError> {
                                 .into());
                             }
                         } else {
-                            return Err(format!("Could not find version for {}", &k)
+                            return Err(format!("could not find version for {}", &k)
                                 .as_str()
                                 .into());
                         }
                     }
                     _ => {
                         return Err(format!(
-                            "Unexpected version format for {} as type {}",
+                            "unexpected version format for {} as type {}",
                             &k,
                             v.type_str()
                         )
