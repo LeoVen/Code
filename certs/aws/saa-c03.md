@@ -98,6 +98,18 @@
     - [Components](#components-1)
   - [Amazon MSK](#amazon-msk)
   - [Amazon OpenSearch](#amazon-opensearch)
+- [Serverless](#serverless)
+  - [Lambda](#lambda)
+  - [Fargate](#fargate)
+  - [ECS](#ecs)
+  - [EKS](#eks)
+    - [EKS-D](#eks-d)
+    - [EKS Anywhere](#eks-anywhere)
+  - [EventBridge](#eventbridge)
+  - [Amazon ECR](#amazon-ecr)
+  - [Aurora Serverless](#aurora-serverless)
+  - [AWS X-Ray](#aws-x-ray)
+  - [AWS AppSync](#aws-appsync)
 
 # SAA-C03
 
@@ -1140,3 +1152,89 @@ Other related services
 * Multi-AZ capable
 * Allows BI apps
 * Integrate with S3, Kinesis, CloudWatch, CloudTrail
+
+# Serverless
+
+* Easy to get started, event based, billing model
+
+## Lambda
+
+> Serverless compute service
+
+* Runtime
+* Permissions
+* Networking
+* Resources
+* Triggers
+
+**Limitations**
+
+* 10 GB of RAM
+* Up to 15 minutes of runtime
+
+**Uses**
+
+* Short-lived and simple functions
+
+## Fargate
+
+> Serverless compute layer for ECS and EKS
+
+* Run containers without hosts
+* ECS and EKS are a requirement
+* More expensive thant EC2
+
+## ECS
+
+## EKS
+
+### EKS-D
+
+> EKS Distro
+
+* Kubernetes deployments fully managed by user
+
+### EKS Anywhere
+
+* Manage on-premise EKS clusters
+* Based on EKS-D
+* Operates independently of AWS
+
+## EventBridge
+
+> Serverless event bus
+
+* Used in serverless applications
+* Creating rules
+  * Based on events
+  * Based on scheduled events
+  * Select Event Bus
+  * Select Target
+  * Tags
+
+## Amazon ECR
+
+> Amazon Elastic Container Registry
+
+* Docker images, OCI images and compatible artifacts
+
+## Aurora Serverless
+
+> Aurora DB serverless
+
+* Max and Min ACU settings
+* Multi AZ deployments
+
+## AWS X-Ray
+
+> Collects data from an application about requests and responses
+
+* Downstreams
+* Segments and subsegments
+* Service graph
+* Traces
+* Tracing Header (X-Amzn-Trace-Id)
+
+## AWS AppSync
+
+> GraphQL interface for application developers
