@@ -1,4 +1,5 @@
 - [SAA-C03](#saa-c03)
+- [Outline](#outline)
 - [Main Topics](#main-topics)
 - [Whitepapers](#whitepapers)
 - [IAM](#iam)
@@ -41,9 +42,7 @@
 - [ENI vs. ENA vs. EFA](#eni-vs-ena-vs-efa)
 - [CloudWatch](#cloudwatch-1)
   - [CloudWatch Logs](#cloudwatch-logs)
-- [CloudTrail](#cloudtrail)
 - [HPC on AWS](#hpc-on-aws)
-- [WAF](#waf)
 - [RDS](#rds)
   - [DynamoDB](#dynamodb)
     - [DAX](#dax)
@@ -110,6 +109,12 @@
   - [Aurora Serverless](#aurora-serverless)
   - [AWS X-Ray](#aws-x-ray)
   - [AWS AppSync](#aws-appsync)
+- [Security](#security)
+  - [CloudTrail](#cloudtrail)
+  - [Shield](#shield)
+  - [WAF](#waf)
+  - [KMS](#kms)
+  - [Other Services](#other-services)
 
 # SAA-C03
 
@@ -136,6 +141,30 @@ Exam Domains
 * 24% - Design High-Performing Architectures
 * 30% - Design Secure Architectures
 * 20% - Design Cost-Optimized Architectures
+
+# Outline
+
+1. Introduction
+2. AWS Fundamentals
+3. IAM
+4. S3
+5. EC2
+6. EBS and EFS
+7. Databases (RDS, DynamoDB, etc.)
+8. VPC
+9. Route 53
+10. ELB
+11. Monitoring (CloudWatch)
+12. High Availability and Scaling
+13. Decoupling Workflows
+14. Big Data
+15. Serverless (Lambda, ECS, EKS, etc.)
+16. Security
+17. Automation
+18. Caching
+19. Governance
+20. Migration
+21. Machine Learning
 
 # Main Topics
 
@@ -595,10 +624,6 @@ To migrate to another Region, just copy the AMI from one Region to another and i
 
 **CloudWatch Logs Insights** can use SQL to query Logs
 
-# CloudTrail
-
-> Records AWS Management Console actions and API calls
-
 # HPC on AWS
 
 * EC2
@@ -609,15 +634,6 @@ To migrate to another Region, just copy the AMI from one Region to another and i
   * ENI
   * ENA
   * EFA
-
-# WAF
-
-> Web Application Firewall
-
-* Application-level Firewall (layer 7 of OSI model)
-* Monitor HTTP and HTTPS requests forwarded to CloudFront
-* Load Balancer
-* API Gateway
 
 # RDS
 
@@ -1238,3 +1254,49 @@ Other related services
 ## AWS AppSync
 
 > GraphQL interface for application developers
+
+# Security
+
+* [DDoS](https://en.wikipedia.org/wiki/Denial-of-service_attack)
+* Layer 4 attacks
+  * [SYN flood](https://en.wikipedia.org/wiki/SYN_flood)
+  * [Amplification Attack](https://en.wikipedia.org/wiki/Denial-of-service_attack#Amplification)
+* Layer 7 attacks
+
+## CloudTrail
+
+> Records AWS Management Console actions and API calls
+
+* After the incident investigation
+* Real-time intrusion detection
+* Industry and regulatory compliance
+
+## Shield
+
+* Protects agains SYN/UDP floods, reflection attacks and other layer 3 and 4 attacks
+* 3,000 USD a month
+
+## WAF
+
+> Web Application Firewall
+
+* Application-level Firewall (layer 7 of OSI model)
+* Monitor HTTP and HTTPS requests forwarded to CloudFront
+* Load Balancer
+* API Gateway
+
+## KMS
+
+> Key Management Service
+
+* Control encryption keys
+* Integrates with EBS, S3, RDS
+* **CMK**: Customer Master Key
+* **HSM**: Hardware Security Module
+
+## Other Services
+
+* GuardDuty: uses machine learning to detect unusual or malicious behavior
+* AWS Firewall Manager: setup and manage Firewall rules across applications and accounts
+* Macie: PII, automated analysis of data
+* Amazon Inspector: inspects the network and EC2 instances
