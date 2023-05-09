@@ -1,0 +1,41 @@
+# example for spining up a minio instance, creating a bucket and adding this docker compose file to it
+# check out the result at the console
+version: "3.9"
+services:
+
+  minio:
+    image: minio/minio:latest
+    entrypoint: minio
+    command: server /data --address :9000 --console-address :9001
+    ports:
+      - "9000:9000"
+      - "9001:9001" # console
+    environment:
+      - MINIO_ROOT_USER=test
+      - MINIO_ROOT_PASSWORD=testtest
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+        interval: 30s
+        timeout: 20s
+        retries: 3
+    volumes:
+      - volume_minio:/server
+
+  # creates a bucket and adds a files to it using mc
+  bucketeer:
+    image: minio/mc:latest
+    volumes:
+      # add local data here
+      - ./:/data
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      mc config host add myminio http://minio:9000 test testtest;
+      mc mb myminio/bucket-name-example;
+      mc cp /data/docker-compose.yml myminio/bucket-name-example;
+      exit 0;
+      "
+
+volumes:
+  volume_minio:
