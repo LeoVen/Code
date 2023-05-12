@@ -2,9 +2,9 @@
   "name": "mongodb",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev src/index.ts"
+    "mongo": "ts-node-dev src/mongo.ts",
+    "postgre": "ts-node-dev src/postgre.ts"
   },
   "keywords": [],
   "author": "",

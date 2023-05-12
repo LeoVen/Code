@@ -54,6 +54,9 @@ class Repository {
     }
 
     async updateProvider(provider: Provider): Promise<Provider> {
+
+        provider.solutionIDs = [...new Set(provider.solutionIDs)]
+
         return await prisma.provider.update({
             where: {
                 id: provider.id,
@@ -62,11 +65,17 @@ class Repository {
                 name: provider.name,
                 type: provider.type,
                 solutionIDs: provider.solutionIDs,
+                solutions: {
+                    connect: provider.solutionIDs.map(id => { return { id: id } })
+                }
             }
         })
     }
 
     async updateSolution(solution: Solution): Promise<Solution> {
+
+        solution.providerIDs = [...new Set(solution.providerIDs)]
+
         return await prisma.solution.update({
             where: {
                 id: solution.id,
@@ -75,6 +84,9 @@ class Repository {
                 name: solution.name,
                 solutionID: solution.solutionID,
                 providerIDs: solution.providerIDs,
+                providers: {
+                    connect: solution.providerIDs.map(id => { return { id: id } })
+                }
             }
         })
     }
@@ -147,18 +159,40 @@ class Repository {
     }
 }
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ log: ['query'] });
 
 async function main() {
 
     let repo = new Repository()
 
-    await repo.createProvider({
-        name: 'Prov1', type: 'EXTERNAL', solutionIDs: [],
-    })
-    await repo.createSolution({
-        name: 'Solar', solutionID: 'cffb9354-d993-42e7-aa18-0f58d3726ce5', providerIDs: [],
-    })
+    // 0 -----------------------------------------------------------------------
+    // await repo.eraseDatabase()
+
+    // 1 -----------------------------------------------------------------------
+    // await repo.createProvider({
+    //     name: 'Prov1', type: 'EXTERNAL', solutionIDs: [],
+    // })
+    // await repo.createSolution({
+    //     name: 'Solar', solutionID: 'cffb9354-d993-42e7-aa18-0f58d3726ce5', providerIDs: [],
+    // })
+
+    // 2 -----------------------------------------------------------------------
+    // let provider = await repo.providerByName('Prov1')
+    // let solution = await repo.solutionByName('Solar')
+
+    // if (provider && solution) {
+    //     solution.providerIDs.push(provider.id)
+    //     await repo.updateSolution(solution)
+    // }
+
+    // 3 -----------------------------------------------------------------------
+    let provider = await repo.providerByName('Prov1')
+    let solution = await repo.solutionByName('Solar')
+
+    if (provider && solution) {
+        provider.solutionIDs.push(solution.id)
+        await repo.updateProvider(provider)
+    }
 
     console.log('--------------------------------------')
     console.log(await repo.listProviders())
