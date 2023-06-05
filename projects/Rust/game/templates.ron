@@ -1,0 +1,37 @@
+[
+    Template(
+        id: "lc",
+        name: "Light Cargo",
+        armour: 400,
+        shield: 5,
+        weapon: 5,
+    ),
+    Template(
+        id: "lf",
+        name: "Light Fighter",
+        armour: 400,
+        shield: 10,
+        weapon: 50,
+    ),
+    Template(
+        id: "hf",
+        name: "Heavy Fighter",
+        armour: 1000,
+        shield: 25,
+        weapon: 150,
+    ),
+    Template(
+        id: "cr",
+        name: "Cruiser",
+        armour: 2700,
+        shield: 50,
+        weapon: 400,
+    ),
+    Template(
+        id: "bs",
+        name: "Battle Ship",
+        armour: 6000,
+        shield: 200,
+        weapon: 1000,
+    )
+]
