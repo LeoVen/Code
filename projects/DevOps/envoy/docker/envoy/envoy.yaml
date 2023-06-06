@@ -1,0 +1,66 @@
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901
+
+static_resources:
+  listeners:
+  - name: main_listener
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8080
+    filter_chains:
+      - filters:
+        - name: envoy.filters.network.http_connection_manager
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            stat_prefix: ingress_http
+            route_config:
+              name: api
+              virtual_hosts:
+                - name: backend
+                  domains:
+                    - "*"
+                  routes:
+                    - match:
+                        prefix: "/service1"
+                      route:
+                        prefix_rewrite: "/"
+                        cluster: service-example-1
+                    - match:
+                        prefix: "/service2"
+                      route:
+                        prefix_rewrite: "/"
+                        cluster: service-example-2
+            http_filters:
+              - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+    - name: service-example-1
+      type: LOGICAL_DNS
+      connect_timeout: 10s
+      load_assignment:
+        cluster_name: service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: service-example-1
+                      port_value: 80
+    - name: service-example-2
+      type: LOGICAL_DNS
+      connect_timeout: 10s
+      load_assignment:
+        cluster_name: service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: service-example-2
+                      port_value: 80

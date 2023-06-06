@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  front-proxy:
+    build:
+      context: ./docker/envoy
+    ports:
+      - "9901:9901"
+      - "8080:8080"
+
+  service-example-1:
+    build:
+      context: ./docker/service
+      args:
+        - SERVER_ID=1
+
+  service-example-2:
+    build:
+      context: ./docker/service
+      args:
+        - SERVER_ID=2
