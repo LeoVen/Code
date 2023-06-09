@@ -19,3 +19,9 @@ services:
       context: ./docker/service
       args:
         - SERVER_ID=2
+
+  opa-envoy:
+    build:
+      context: ./docker/opa
+    ports:
+      - "9191:9191"

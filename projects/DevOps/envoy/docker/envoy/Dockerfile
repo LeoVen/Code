@@ -8,4 +8,4 @@ COPY . /envoy
 WORKDIR /envoy
 
 RUN chown -R envoy:envoy .
-CMD envoy -c ./envoy.yaml
+CMD envoy -c ./envoy.yaml --log-level info
