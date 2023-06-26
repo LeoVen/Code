@@ -3,7 +3,7 @@ sudo apt update -y
 sudo apt upgrade -y
 
 # terminal
-sudo apt install zsh
+sudo apt install zsh -y
 # setup zsh
 # install oh-my-zsh plugins
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -25,10 +25,13 @@ source ~/.bashrc
 # install node
 nvm install node
 # python
-sudo apt install python3
+sudo apt install python3 python3-pip -y
 
 # devops
 # terraform
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install terraform
+sudo apt update && sudo apt install terraform -y
+
+# other tools
+sudo apt install zip unzip vim -y
