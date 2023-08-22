@@ -9,3 +9,5 @@ echo 'console.log("Hello, World!")' > index.ts
 
 # put this in scripts
 node --loader ts-node/esm index.ts
+
+npx tsc --init
