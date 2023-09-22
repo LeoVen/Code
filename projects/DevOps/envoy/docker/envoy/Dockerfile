@@ -1,7 +1,7 @@
 FROM envoyproxy/envoy:v1.27-latest
 
 RUN apt update && \
-    apt install -y curl && \
+    apt install -y curl dnsutils && \
     rm -rf /var/lib/apt/lists
 
 COPY . /envoy

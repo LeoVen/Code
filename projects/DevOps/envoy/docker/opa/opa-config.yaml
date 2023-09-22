@@ -1,7 +1,8 @@
 plugins:
   envoy_ext_authz_grpc:
-    addr: :9191
-    path: envoy/authz/allow # this is the default value
+    addr: :9191 # default value
+    path: envoy/authz/allow # default value
+    enable-reflection: true
 
 decision_logs:
   console: true

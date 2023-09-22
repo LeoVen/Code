@@ -66,12 +66,12 @@ static_resources:
                       transport_api_version: V3
                       failure_mode_allow: false # when true, if the ext_authz fails to respond, the request will be allowed through
                       grpc_service:
+                        # also works
+                        # google_grpc:
+                        #   target_uri: opa-envoy:9191
+                        #   stat_prefix: opa
                         envoy_grpc:
-                          cluster_name: opa-envoy
-                      with_request_body:
-                        allow_partial_message: true
-                        max_request_bytes: 8192
-                        pack_as_bytes: true
+                          cluster_name: opa-envoy-cluster
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
@@ -102,10 +102,11 @@ static_resources:
                       address: service-example-2
                       port_value: 80
 
-    - name: opa-envoy
-      connect_timeout: 1.25s
+    - name: opa-envoy-cluster
       type: LOGICAL_DNS
       lb_policy: ROUND_ROBIN
+      # for some reason, the following line is necessary
+      http2_protocol_options: {}
       load_assignment:
         cluster_name: opa-envoy
         endpoints:

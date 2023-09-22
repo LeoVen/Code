@@ -12,5 +12,5 @@ allow if {
 
 is_request_valid if {
 	http_request.method == "GET"
-	startswith(http_request.path[0], "/service")
+	startswith(http_request.path, "/service")
 }
