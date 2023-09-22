@@ -34,18 +34,43 @@ static_resources:
                           route:
                             prefix_rewrite: "/"
                             cluster: service-example-2
+                access_log:
+                  - name: envoy.access_loggers.stream
+                    filter:
+                      not_health_check_filter: {}
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
+                      log_format:
+                        json_format:
+                          bytesReceived: "%BYTES_RECEIVED%"
+                          bytesSent: "%BYTES_SENT%"
+                          duration: "%DURATION%"
+                          httpMethod: "%REQ(:method)%"
+                          protocol: "%PROTOCOL%"
+                          requestTime: "%START_TIME(%Y/%m/%dT%H:%M:%S%z)%"
+                          responseFlags: "%RESPONSE_FLAGS%"
+                          responseLength: "%BYTES_SENT%"
+                          responseStatusDetails: "%RESPONSE_CODE_DETAILS%"
+                          service: envoy-proxy
+                          status: "%RESPONSE_CODE%"
+                          timestamp: "%START_TIME(%s.%6f)%"
+                          upstreamCluster: "%UPSTREAM_CLUSTER%"
+                          upstreamPath: "%REQ(:path)%"
+                          userAgent: "%REQ(user-agent)%"
                 http_filters:
                   - name: envoy.ext_authz
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                      status_on_error:
+                        code: 500
                       transport_api_version: V3
-                      failure_mode_allow: false
+                      failure_mode_allow: false # when true, if the ext_authz fails to respond, the request will be allowed through
                       grpc_service:
                         envoy_grpc:
                           cluster_name: opa-envoy
                       with_request_body:
                         allow_partial_message: true
-                        max_request_bytes: 1024
+                        max_request_bytes: 8192
                         pack_as_bytes: true
                   - name: envoy.filters.http.router
                     typed_config:

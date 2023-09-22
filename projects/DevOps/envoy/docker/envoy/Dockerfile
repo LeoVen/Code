@@ -1,4 +1,4 @@
-FROM envoyproxy/envoy:v1.26-latest
+FROM envoyproxy/envoy:v1.27-latest
 
 RUN apt update && \
     apt install -y curl && \
