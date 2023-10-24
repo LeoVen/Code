@@ -26,6 +26,15 @@ source ~/.bashrc
 nvm install node
 # python
 sudo apt install python3 python3-pip -y
+# golang
+# remove previous version
+rm -rf /usr/local/go
+# download new version
+wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
+# extract downloaded version
+sudo tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz
+# add to env var
+echo "\nexport PATH=\$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bashrc
 
 # devops
 # terraform
@@ -35,3 +44,6 @@ sudo apt update && sudo apt install terraform -y
 
 # other tools
 sudo apt install zip unzip vim -y
+
+# graphviz
+sudo apt install graphviz -y
