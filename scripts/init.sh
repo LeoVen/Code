@@ -11,6 +11,9 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
 
+# initial tools
+sudo apt install build-essential procps curl file git gnupg jq sed net-tools vim -y
+
 # programming languages
 # C, C++
 sudo apt install gcc -y
@@ -43,7 +46,14 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 sudo apt update && sudo apt install terraform -y
 
 # other tools
-sudo apt install zip unzip vim -y
+sudo apt install zip unzip ffmpeg graphviz openssl -y
 
-# graphviz
-sudo apt install graphviz -y
+# 1password cli
+sudo apt install 1password-cli
+
+# install homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# add it to path
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
