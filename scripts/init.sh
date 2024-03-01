@@ -46,7 +46,7 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 sudo apt update && sudo apt install terraform -y
 
 # other tools
-sudo apt install zip unzip ffmpeg graphviz openssl -y
+sudo apt install zip unzip ffmpeg graphviz openssl bc synaptic -y
 
 # 1password cli
 sudo apt install 1password-cli
@@ -57,3 +57,11 @@ sudo apt install 1password-cli
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
 test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+
+# some nice aliases
+alias hg='history | grep'
+alias .1='cd ../'
+alias .2='cd ../../'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'

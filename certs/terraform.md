@@ -2,6 +2,7 @@
   - [Exam](#exam)
   - [Workflow](#workflow)
   - [Backend](#backend)
+  - [State File](#state-file)
 
 # Hashicorp Terraform Associate
 
@@ -12,15 +13,15 @@ Sources
 
 ## Exam
 
-1. Understand Infrastructure as Code concepts
-2. Understand Terraform`s purpose
+1. Understand infrastructure as code (IaC) concepts
+2. Understand the purpose of Terraform (vs other IaC)
 3. Understand Terraform basics
-4. Use Terraform CLI
-5. Interact with Terraform Modules
-6. Navigate Terraform workflow
+4. Use Terraform outside of core workflow
+5. Interact with Terraform modules
+6. Use the core Terraform workflow
 7. Implement and maintain state
 8. Read, generate and modify configuration
-9. Understand Terraform Cloud and Enterprise capabilities
+9. Understand Terraform Cloud capabilities
 
 ## Workflow
 

@@ -59,7 +59,7 @@ fn get_word_sizes(words: &Vec<&str>, longest: usize) -> BTreeMap<usize, usize> {
 }
 
 fn main() {
-    let result = std::fs::read_to_string("./names.txt").expect("failed to read words.txt");
+    let result = std::fs::read_to_string("./names.txt").expect("failed to read names.txt");
 
     let words = result.split('\n').collect::<Vec<&str>>();
     let total_words = words.len();
