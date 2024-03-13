@@ -1,0 +1,21 @@
+services:
+  stack_api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - subnet_1
+    depends_on:
+      - dbpg
+
+  dbpg:
+    image: postgres:16.2
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    networks:
+      - subnet_1
+
+networks:
+  subnet_1:
