@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
     networks:
       - subnet_1
     depends_on:

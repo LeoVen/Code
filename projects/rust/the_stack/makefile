@@ -4,6 +4,9 @@ run: check build
 check:
 	cargo clippy
 
+check-fix:
+	cargo clippy --fix --allow-dirty
+
 build:
 	docker compose build
 
