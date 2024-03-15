@@ -1,8 +1,11 @@
 run: check build
 	docker compose up
 
+infra:
+	docker compose up dbpg redis -d
+
 check:
-	cargo clippy
+	cargo clippy -- -D warnings
 
 check-fix:
 	cargo clippy --fix --allow-dirty

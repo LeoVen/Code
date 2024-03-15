@@ -2,20 +2,29 @@ services:
   stack_api:
     build:
       context: .
-      dockerfile: ./Dockerfile
     ports:
       - 3000:3000
     networks:
       - subnet_1
     depends_on:
       - dbpg
+      - redis
 
   dbpg:
-    image: postgres:16.2
+    build:
+      context: ./docker/postgresql
     ports:
       - 5432:5432
     env_file:
       - .env
+    networks:
+      - subnet_1
+
+  redis:
+    build:
+      context: ./docker/redis
+    ports:
+      - "6379:6379"
     networks:
       - subnet_1
 
