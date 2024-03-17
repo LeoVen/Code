@@ -1,8 +1,7 @@
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use sqlx::{
-    postgres::{PgConnectOptions, PgPoolOptions},
-    ConnectOptions, Pool, Postgres,
+    postgres::{PgConnectOptions, PgPoolOptions}, Pool, Postgres,
 };
 use tokio_retry::{strategy::FixedInterval, Retry};
 
@@ -39,8 +38,7 @@ pub async fn setup(env: &str) -> Result<Pool<Postgres>> {
         .database(&config.database);
 
     let pool = Retry::spawn(FixedInterval::from_millis(1000).take(5), || {
-        let url = conn_opt.to_url_lossy().to_string();
-        tracing::info!(url, "Attempting PostgreSQL database connection");
+        tracing::info!("Attempting PostgreSQL database connection");
         PgPoolOptions::new().connect_with(conn_opt.clone())
     })
     .await

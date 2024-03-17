@@ -6,9 +6,11 @@ services:
       - 3000:3000
     networks:
       - subnet_1
+    env_file:
+      - .env
     environment:
-      - CACHE_REDIS_HOST="redis"
-      - DATABASE_POSTGRES_HOST="dbpg"
+      - CACHE_REDIS_HOST=redis
+      - DATABASE_POSTGRES_HOST=dbpg
     depends_on:
       - dbpg
       - redis

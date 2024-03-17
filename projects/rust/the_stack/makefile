@@ -1,14 +1,16 @@
-run: clippy build
-	docker compose up
+up: clippy build
+	docker compose up -d
+	sqlx migrate run
+	docker compose logs -f
 
 build:
 	docker compose build
 
 clippy:
-	cargo clippy -- -D warnings
+	cargo clippy --fix --allow-dirty --allow-staged -- -D warnings
 
-clippy-fix:
-	cargo clippy --fix --allow-dirty --allow-staged
+down:
+	docker compose down
 
 infra:
 	docker compose up dbpg redis -d
