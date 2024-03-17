@@ -1,11 +1,4 @@
-CREATE TABLE spell (
-  id bigserial primary key,
-  name VARCHAR,
-  damage INT not null,
-  created_at TIMESTAMPTZ NOT NULL default now(),
-  updated_at TIMESTAMPTZ NOT NULL default now()
-);
-
+-- Add migration script here
 INSERT INTO spell (id, name, damage) VALUES
 (1, 'Fireball', 30),
 (2, 'Ice Shard', 25),

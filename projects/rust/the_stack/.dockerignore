@@ -1,4 +1,5 @@
 .git/
+target/
 docker-compose.yml
 Dockerfile
 rustfmt.toml

@@ -4,32 +4,48 @@ use axum::{
 };
 use serde::Serialize;
 
-
-
 pub type ApiResult<T> = Result<T, ApiError>;
 
 // Make our own error that wraps `anyhow::Error`.
-pub struct ApiError(pub anyhow::Error);
+pub enum ApiError {
+    Internal(anyhow::Error),
+    NotFound(String),
+}
+
+#[derive(Serialize)]
+struct ResponseBody {
+    message: String,
+}
+
+impl ResponseBody {
+    pub fn from(message: &str) -> String {
+        serde_json::to_string(&Self {
+            message: message.to_string(),
+        })
+        .unwrap_or_default()
+    }
+}
 
 // Tell axum how to convert `ApiError` into a response.
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        #[derive(Serialize)]
-        struct Body {
-            message: String,
-            error: String,
+        match self {
+            ApiError::Internal(error) => {
+                let error = error.to_string();
+                tracing::error!(error, "Internal Server Error");
+
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    ResponseBody::from("Internal Server Error"),
+                )
+                    .into_response()
+            }
+            ApiError::NotFound(message) => {
+                tracing::error!(error = message, "Not Found");
+
+                (StatusCode::NOT_FOUND, ResponseBody::from("Not Found")).into_response()
+            }
         }
-
-        let body = Body {
-            message: "Internal Server Error".to_string(),
-            error: self.0.to_string(),
-        };
-
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            serde_json::to_string(&body).unwrap_or_default(),
-        )
-            .into_response()
     }
 }
 
@@ -40,6 +56,6 @@ where
     E: Into<anyhow::Error>,
 {
     fn from(err: E) -> Self {
-        Self(err.into())
+        Self::Internal(err.into())
     }
 }

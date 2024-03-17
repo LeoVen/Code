@@ -1,16 +1,20 @@
-run: check build
+run: clippy build
 	docker compose up
-
-infra:
-	docker compose up dbpg redis -d
-
-check:
-	cargo clippy -- -D warnings
-
-check-fix:
-	cargo clippy --fix --allow-dirty
 
 build:
 	docker compose build
 
-.PHONY: check build run
+clippy:
+	cargo clippy -- -D warnings
+
+clippy-fix:
+	cargo clippy --fix --allow-dirty --allow-staged
+
+infra:
+	docker compose up dbpg redis -d
+
+migrate:
+	sqlx migrate run
+
+deps:
+	cargo install sqlx-cli

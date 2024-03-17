@@ -1,12 +1,12 @@
 use anyhow::{Context, Result};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
-    Pool, Postgres,
+    ConnectOptions, Pool, Postgres,
 };
-use tracing::info;
+use tokio_retry::{strategy::FixedInterval, Retry};
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 struct DatabasePostgresConfig {
     #[serde(rename(deserialize = "database_postgres_host"))]
     pub host: String,
@@ -21,10 +21,15 @@ struct DatabasePostgresConfig {
 }
 
 #[tracing::instrument]
-pub async fn setup() -> Result<Pool<Postgres>> {
-    info!("Setting up database");
+pub async fn setup(env: &str) -> Result<Pool<Postgres>> {
+    tracing::info!("Setting up database");
 
     let config = envy::from_env::<DatabasePostgresConfig>().context("Failed to get env vars")?;
+
+    if env == "dev" {
+        let config_str = serde_json::to_string(&config).unwrap_or("Serialize Error".to_string());
+        tracing::info!(config = config_str);
+    }
 
     let conn_opt = PgConnectOptions::new()
         .host(&config.host)
@@ -33,12 +38,15 @@ pub async fn setup() -> Result<Pool<Postgres>> {
         .password(&config.password)
         .database(&config.database);
 
-    let pool = PgPoolOptions::new()
-        .connect_with(conn_opt)
-        .await
-        .context("Failed to connect to PostgreSQL")?;
+    let pool = Retry::spawn(FixedInterval::from_millis(1000).take(5), || {
+        let url = conn_opt.to_url_lossy().to_string();
+        tracing::info!(url, "Attempting PostgreSQL database connection");
+        PgPoolOptions::new().connect_with(conn_opt.clone())
+    })
+    .await
+    .context("Failed to connect to PostgreSQL")?;
 
-    info!("Database setup finished");
+    tracing::info!("Database setup finished");
 
     Ok(pool)
 }
