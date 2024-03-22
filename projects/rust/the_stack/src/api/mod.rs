@@ -1,3 +1,5 @@
+pub mod metrics;
+
 use std::{
     net::{Ipv4Addr, SocketAddrV4},
     sync::Arc,
@@ -12,15 +14,15 @@ use axum::{
     Json, Router,
 };
 use redis::{aio::MultiplexedConnection, AsyncCommands, SetOptions};
-use redis_macros::{FromRedisValue, ToRedisArgs};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use sqlx::{FromRow, Postgres};
+use sqlx::Postgres;
 use tower_http::{cors::CorsLayer, trace::TraceLayer};
 
 use crate::{
     error::{ApiError, ApiResult},
-    metrics,
+    metrics::Metrics,
+    model::spell::Spell,
 };
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -29,10 +31,10 @@ struct AxumApiConfig {
     pub port: u16,
 }
 
-#[derive(Clone)]
 pub struct AppState {
     pub db: sqlx::Pool<Postgres>,
     pub cache: MultiplexedConnection,
+    pub metrics: Metrics,
 }
 
 #[tracing::instrument(skip(state))]
@@ -44,7 +46,9 @@ pub async fn setup(env: &str, state: AppState) -> Result<()> {
         tracing::info!(config = config_str);
     }
 
-    let app = Router::new()
+    let metrics = state.metrics.clone();
+
+    let example = Router::new()
         .route("/", axum::routing::get(select_all))
         .route("/:id", axum::routing::get(select_one))
         .layer(CorsLayer::new().allow_headers([http::header::CONTENT_TYPE]))
@@ -62,20 +66,28 @@ pub async fn setup(env: &str, state: AppState) -> Result<()> {
                         matched_path,
                     )
                 })
+                .on_request(move |_request: &Request<Body>, _span: &tracing::Span| {
+                    metrics.api_count.inc();
+                })
                 .on_response(
-                    |response: &Response<Body>, _duration, _span: &tracing::Span| {
+                    move |response: &Response<Body>, _duration, _span: &tracing::Span| {
                         let status = response.status();
+
                         if status.is_success() {
-                            tracing::info!(metric = metrics::RESPONSE_STATUS_2XX);
+                            metrics.api_2xx.inc();
                         } else if status.is_client_error() {
-                            tracing::info!(metric = metrics::RESPONSE_STATUS_4XX);
+                            metrics.api_4xx.inc();
                         } else if status.is_server_error() {
-                            tracing::info!(metric = metrics::RESPONSE_STATUS_5XX);
+                            metrics.api_5xx.inc();
                         }
                     },
                 ),
         )
         .with_state(state.into());
+
+    let metrics = metrics::router();
+
+    let app = Router::new().merge(metrics).merge(example);
 
     let listener =
         tokio::net::TcpListener::bind(SocketAddrV4::new(Ipv4Addr::new(0, 0, 0, 0), config.port))
@@ -91,27 +103,9 @@ pub async fn setup(env: &str, state: AppState) -> Result<()> {
     Ok(())
 }
 
-#[derive(Serialize, Deserialize, FromRow, Clone, FromRedisValue, ToRedisArgs)]
-pub struct Spell {
-    pub id: i64,
-    pub name: Option<String>,
-    pub damage: i32,
-    pub created_at: chrono::DateTime<chrono::Utc>,
-    pub updated_at: chrono::DateTime<chrono::Utc>,
-}
-
-impl Spell {
-    pub fn redis_key(id: i64) -> String {
-        format!("{}:{}", "spell", id)
-    }
-}
-
 #[tracing::instrument(skip_all)]
 async fn select_all(State(ctx): State<Arc<AppState>>) -> ApiResult<Json<Value>> {
-    let result: Vec<Spell> =
-        sqlx::query_as("SELECT id, name, damage, created_at, updated_at FROM spell")
-            .fetch_all(&ctx.db)
-            .await?;
+    let result = Spell::get_all(&ctx.db).await?;
 
     Ok(Json(json!(result)))
 }
@@ -121,17 +115,15 @@ async fn select_one(
     State(ctx): State<Arc<AppState>>,
     Path(id): Path<i64>,
 ) -> ApiResult<Json<String>> {
-    tracing::info!(metric = metrics::API_CALL);
-
     let mut cache = ctx.cache.clone();
 
     let cached: Option<Vec<String>> = cache.get(Spell::redis_key(id)).await?;
 
     if let Some(mut cached) = cached {
-        tracing::info!(metric = metrics::CACHE_HIT);
+        ctx.metrics.cache_hit.inc();
         return Ok(Json(cached.pop().unwrap_or("{}".to_string())));
     } else {
-        tracing::info!(metric = metrics::CACHE_MISS);
+        ctx.metrics.cache_miss.inc();
     }
 
     let value: Spell =

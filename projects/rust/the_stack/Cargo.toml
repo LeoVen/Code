@@ -11,6 +11,7 @@ axum = "0.7.4"
 chrono = { version = "0.4.35", features = ["serde"] }
 dotenv = "0.15.0"
 envy = "0.4.2"
+prometheus = "0.13.3"
 redis = { version = "0.25.1", features = ["tokio-rustls-comp", "json"] }
 redis-macros = "0.2.1"
 serde = { version = "1.0.197", features = ["derive"] }

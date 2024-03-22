@@ -1,7 +1,8 @@
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use sqlx::{
-    postgres::{PgConnectOptions, PgPoolOptions}, Pool, Postgres,
+    postgres::{PgConnectOptions, PgPoolOptions},
+    Pool, Postgres,
 };
 use tokio_retry::{strategy::FixedInterval, Retry};
 

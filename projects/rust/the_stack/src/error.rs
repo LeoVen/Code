@@ -6,7 +6,7 @@ use serde::Serialize;
 
 pub type ApiResult<T> = Result<T, ApiError>;
 
-// Make our own error that wraps `anyhow::Error`.
+#[derive(Debug)]
 pub enum ApiError {
     Internal(anyhow::Error),
     NotFound(String),

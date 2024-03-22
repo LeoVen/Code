@@ -1,5 +1,6 @@
 up: clippy build
 	docker compose up -d
+	sleep 1
 	sqlx migrate run
 	docker compose logs -f
 
