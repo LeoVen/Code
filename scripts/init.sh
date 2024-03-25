@@ -31,11 +31,11 @@ nvm install node
 sudo apt install python3 python3-pip -y
 # golang
 # remove previous version
-rm -rf /usr/local/go
+sudo rm -rf /usr/local/go
 # download new version
-wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
 # extract downloaded version
-sudo tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
 # add to env var
 echo "\nexport PATH=\$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bashrc
 
@@ -59,12 +59,15 @@ test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/bre
 echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
 
 # some nice aliases
-alias hg='history | grep'
 alias .1='cd ../'
 alias .2='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
+
+alias hg='history | grep'
+alias tf='terraform'
+alias dc='docker compose'
 
 # neovim
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
@@ -77,3 +80,7 @@ wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsM
 unzip JetBrainsMono.zip
 rm JetBrainsMono.zip
 fc-cache -fv
+
+# Install obsidian and add the binary to path
+flatpak install flathub md.obsidian.Obsidian
+alias obsidian='flatpak run md.obsidian.Obsidian'
