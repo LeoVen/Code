@@ -8,7 +8,7 @@ out_folder = "upscaled"
 folders = ["input"]
 model = EdsrModel.from_pretrained('eugenesiow/edsr-base', scale=2)
 
-num_upscale = 1
+num_upscale = 2
 
 Path(f'{out_folder}').mkdir(exist_ok=True)
 
@@ -30,7 +30,7 @@ def out_path(file_name, target_folder):
 
 
 for folder in folders:
-    files = os.listdir(folder)
+    files: list[str] = os.listdir(folder)
 
     Path(f'{out_folder}/{folder}').mkdir(exist_ok=True)
 

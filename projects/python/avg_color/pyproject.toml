@@ -1,0 +1,9 @@
+[project]
+name = "avg_color"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "opencv-python",
+    "numpy",
+    "scikit-learn",
+]
